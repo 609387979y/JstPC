@@ -24,7 +24,7 @@ jobs:
       
       # 3. 安装依赖
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
       
       # 4. 构建前端（如果有 Vite/React/Vue 等）
       - name: Build frontend
