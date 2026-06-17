@@ -1,32 +1,54 @@
-name: Build macOS
+name: Build Electron App
 
 on: push
-      
 
 jobs:
-  build-mac:
-    runs-on: macos-latest
+  build:
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    
+    runs-on: ${{ matrix.os }}
     
     steps:
-      - uses: actions/checkout@v4
+      # 1. 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
       
+      # 2. 安装 Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
       
+      # 3. 安装依赖
       - name: Install dependencies
         run: npm ci
       
-      - name: Build macOS app
-        run: electron:buildMac
-        # env:
-        #   # 如果需要代码签名，在这里配置证书
-        #   CSC_LINK: ${{ secrets.CSC_LINK }}
-        #   CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+      # 4. 构建前端（如果有 Vite/React/Vue 等）
+      - name: Build frontend
+        run: npm run build
       
-      - name: Upload artifact
+      # 5. macOS 打包
+      - name: Build for macOS
+        if: matrix.os == 'macos-latest'
+        run: npm run build:mac
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          # 如果需要代码签名和公证，取消注释并配置 secrets
+          # APPLE_ID: ${{ secrets.APPLE_ID }}
+          # APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          # APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      
+      # 6. Windows 打包
+      - name: Build for Windows
+        if: matrix.os == 'windows-latest'
+        run: npm run build:win
+      
+      # 7. 上传构建产物
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: mac-build
+          name: ${{ matrix.os }}-build
           path: dist/

@@ -10,7 +10,8 @@
     "dist": "electron-builder --mac",
     "pack": "electron-builder",
     "electron:build": "npm run build && electron-builder",
-    "electron:buildMac": "npm run build && electron-builder --mac"
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win"
   },
   "engines": {
     "node": ">=14.0.0"
