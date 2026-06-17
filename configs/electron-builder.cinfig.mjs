@@ -13,7 +13,7 @@ const config = {
   publish: [
     {
       "provider": "generic",
-      "url": "https://www.port56.cn/Releases/${os}"
+      "url": "https://http://waytest.justom.cn/Releases/${os}"
     }
   ],
   files: [
