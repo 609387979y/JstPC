@@ -34,8 +34,8 @@ jobs:
       - name: Build for macOS
         if: matrix.os == 'macos-latest'
         run: npm run build:mac
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        # env:
+        #   GH_TOKEN: ${{ secrets.GH_TOKEN }}
           # 如果需要代码签名和公证，取消注释并配置 secrets
           # APPLE_ID: ${{ secrets.APPLE_ID }}
           # APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
