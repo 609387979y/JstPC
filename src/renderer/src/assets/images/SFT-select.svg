@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="32px" viewBox="0 0 40 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 25</title>
+    <g id="客户端-舱单功能" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-25">
+            <path d="M0,32 L40,0 L40,26 C40,29.3137085 37.3137085,32 34,32 L0,32 L0,32 Z" id="路径-4备份" fill="#8DCE6C"></path>
+            <polyline id="路径-5备份" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="20 23.5627176 24.8960908 27 33 18"></polyline>
+        </g>
+    </g>
+</svg>

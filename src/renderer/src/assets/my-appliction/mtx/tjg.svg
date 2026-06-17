@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>码头箱-天津港</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#90F0E1" offset="0%"></stop>
+            <stop stop-color="#5FE0E6" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="码头箱动态" transform="translate(-152.000000, -418.000000)">
+            <g id="码头箱-天津港" transform="translate(152.000000, 418.000000)">
+                <circle id="椭圆形" fill="url(#linearGradient-1)" cx="27" cy="27" r="27"></circle>
+                <image id="52" x="14" y="15" width="26.1944444" height="23" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAAkCAYAAAAU/hMoAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAKaADAAQAAAABAAAAJAAAAAA4sEDuAAADdElEQVRYCc3YS0hUURzH8ZlJy1RSe6BY9hCzonKTUZEYQVQWtglcFEIQRItWbqRtUKtWQauCosiNtZDCHhRR9KBF0ftlpclYpqlYPjO1729QuA53Zs59GPOHj86cc++5f+ee879nDI6Pj/cHAoEZGEOyRSoJfU/hR3qyZRaVT0YoqiEZ34b0Sf6Akk3W290eZE7mkWAQyRjKa0RJJmNyU3Lye07mM/oeZE+5isc3fiWpKXMUt9GAWziCTHgOr7d7PRlUYztW2GTzkrZG1OGVTb9Rk9MkMxi1GBXYiTXIQaLo4oDnuIqb+IpBGEW8JJVQFhZgNdahHCWYCbcxwInP8HDi91t+/0QvbBNXkpV0pmEO9KlILgpQhEJMZ6g+f8RntKET3eiBHtk9StLPGqRbWY/DKIUfMRZQkj5EP2PUIA0acx6OwY/o0oCjHkYa5txzWAuNFa2MtssYgdsIu02ygyvWoRwhRCdnfZ9CfwUa0A2n0aY5OcrEMSnqOk5l5A4u4jXsQotwyK6Dtg2oxhaofJlEONHC0Wp7A5WMR9CTZBixooqOgziO+7EOol2PzW3YCJU2lTiVOrsYVpJP6BnBL2jpa+vWgvdoRRNMtnG1HHcCuit9qMEZJIpZHLAcBViJxVAJVCnUH9OnuaOVmIN0KGnrfDJ5ncs59bCL0zRmwmQc6zGa58pnLrKtHU5fz2aAA2hCvHhK516kwuk1Ise7OUl/pVbrNTgJVQOVJMfXdHJCFheoguqelzjPyZXQnTC6fmQOMjljxXw6NkMbC5UNrUS/4jED3cNdqHJosdmGklxIj3Y1kzueRbzWaitBMZYiFdMV2hVp66Zqotr7CWFoZ/QbA0py8tuivjkqWZUE/bPAbajoez1fD4M/+ItOJennLugFg56coFrnRwzp01OhNnksJrpgOwfsgzaxLdC2zY//jnT5kRy5ROaQHnNKUPEAuxBzMeggwwj6kaQeq1uhZ7w1tHJ34IO10dVrpqTb/eQY555FtqZ1HAX0XYHbaNPgbpJs5rxDiJectU8LtBZhOA3HSbZzhVPIgzUJ09dFnHcJvTAN403vO+ZSIy5AX/i9xiYG2A8trmUJBoskGatOaqVq8t+ANr1h+B2FDFiK3SiD3kdH5IlznVZV+A58wxfok2uF2v5HhLiIiv8SrII+3XyobfAfsplrH1PBDEMAAAAASUVORK5CYII="></image>
+            </g>
+        </g>
+    </g>
+</svg>

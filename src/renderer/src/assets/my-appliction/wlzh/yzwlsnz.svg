@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>物流-亚洲物流双年展</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FF955C" offset="0%"></stop>
+            <stop stop-color="#FF642A" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="物流展会" transform="translate(-275.000000, -46.000000)">
+            <g id="物流-亚洲物流双年展" transform="translate(275.000000, 46.000000)">
+                <circle id="椭圆形" fill="url(#linearGradient-1)" cx="27" cy="27" r="27"></circle>
+                <image id="11" x="7.90909091" y="19" width="37.8181818" height="16" xlink:href="data:image/png;base64,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"></image>
+            </g>
+        </g>
+    </g>
+</svg>

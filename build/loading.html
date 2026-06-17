@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>加载中</title>
+  </head>
+  <body style="background-color: rgb(250, 249, 251)">
+    <div
+      class="icon"
+      style="
+        position: absolute;
+        left: calc(50% - 32px);
+        top: calc(50% - 32px);
+        width:64px;
+        height:64px;
+        fill: #409eff;
+      "
+    >
+      <svg
+        style="box-sizing: content-box; color: var(--color-icon-primary)"
+        width="64"
+        height="64"
+        viewBox="0 0 16 16"
+        fill="none"
+        data-view-component="true"
+        class="octospinner mx-auto anim-rotate"
+      >
+        <circle
+          cx="8"
+          cy="8"
+          r="7"
+          stroke="currentColor"
+          stroke-opacity="0.25"
+          stroke-width="2"
+          vector-effect="non-scaling-stroke"
+        ></circle>
+        <path
+          d="M15 8a7.002 7.002 0 00-7-7"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          vector-effect="non-scaling-stroke"
+        ></path>
+      </svg>
+    </div>
+  </body>
+</html>
+<style>
+  .icon {
+    /* transform-origin:50% 50%; */
+    animation: loading-rotate 1s infinite;
+  }
+
+  @keyframes loading-rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>

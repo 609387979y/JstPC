@@ -1,0 +1,65 @@
+{
+  "name": "jsTower",
+  "version": "1.2.9",
+  "main": "dist/main/index.cjs",
+  "author": "justom",
+  "scripts": {
+    "dev": "node scripts/watch.mjs",
+    "dev:local": "node scripts/watch.mjs --local",
+    "build": "node scripts/build.mjs",
+    "dist": "electron-builder --mac",
+    "pack": "electron-builder",
+    "electron:build": "npm run build && electron-builder"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "build": {
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*"
+    ]
+  },
+  "dependencies": {
+    "@electron/remote": "^2.0.8",
+    "@element-plus/icons": "^0.0.11",
+    "@element-plus/icons-vue": "2.0.6",
+    "@sentry/electron": "^3.0.4",
+    "axios": "^0.24.0",
+    "copy-to-clipboard": "^3.3.1",
+    "dexie": "^3.2.0",
+    "electron-packager": "^17.1.2",
+    "electron-tabs": "^0.17.0",
+    "electron-updater": "^4.6.1",
+    "element-plus": "^1.2.0-beta.4",
+    "events": "^3.3.0",
+    "justom-share": "^1.1.10",
+    "mathjs": "^10.4.0",
+    "nedb-promises": "^5.0.2",
+    "qrcode": "^1.5.1",
+    "sortablejs": "^1.15.0",
+    "v-contextmenu": "^3.0.0",
+    "vue": "^3.2.22",
+    "vue-router": "^4.0.12",
+    "vue-runtime-helpers": "^1.1.2",
+    "vuex": "^4.0.2",
+    "vxe-table": "4.2.7-beta.0",
+    "ws": "^8.5.0",
+    "xe-utils": "^3.5.4"
+  },
+  "devDependencies": {
+    "@types/qrcode": "^1",
+    "@types/sortablejs": "^1.10.7",
+    "@types/ws": "^8.5.3",
+    "@vitejs/plugin-vue": "^1.9.4",
+    "@vitejs/plugin-vue-jsx": "^1.2.0",
+    "chalk": "^4.1.2",
+    "electron": "14.0.0",
+    "electron-builder": "^23.3.0",
+    "sass": "^1.43.4",
+    "typed-emitter": "^2.1.0",
+    "typescript": "^4.4.4",
+    "vite": "^2.6.14"
+  },
+  "packageManager": "yarn@4.10.3+sha512.c38cafb5c7bb273f3926d04e55e1d8c9dfa7d9c3ea1f36a4868fa028b9e5f72298f0b7f401ad5eb921749eb012eb1c3bb74bf7503df3ee43fd600d14a018266f"
+}

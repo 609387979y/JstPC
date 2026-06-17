@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="19px" height="16px" viewBox="0 0 19 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>shenqingqiyerenzheng</title>
+    <defs>
+        <linearGradient x1="13.3277993%" y1="17.9988625%" x2="100%" y2="82.0011375%" id="linearGradient-1">
+            <stop stop-color="#FDD36C" offset="0%"></stop>
+            <stop stop-color="#F9AB10" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="及时通备份-7" transform="translate(-26.000000, -331.000000)" fill-rule="nonzero">
+            <g id="工具组" transform="translate(0.000000, 50.000000)">
+                <g id="工作台备份-6" transform="translate(5.000000, 269.000000)">
+                    <g id="shenqingqiyerenzheng" transform="translate(21.000000, 12.000000)">
+                        <polygon id="形状" fill="url(#linearGradient-1)" points="9.5 15.2002702 5.75869983e-16 5.84615385 2.37466231 -3.83913322e-16 16.6239869 -3.83913322e-16 19 5.84615385"></polygon>
+                        <polygon id="路径" fill="#FFFFFF" points="12.6662164 2.53270297 9.5 7.59945969 6.33378359 2.53270297 3.79972985 2.53270297 9.5 11.3991895 15.2002702 2.53270297"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

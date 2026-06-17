@@ -1,0 +1,41 @@
+:deep(.el-pagination.is-background .el-pager li:not(.disabled).active) {
+  background-color: #ff9809;
+}
+:deep(.el-button){
+  padding: 3px 6px;
+}
+:deep(.el-button--default){
+  // --el-button-hover-text-color:#ff9809;
+  --el-button-active-bg-color:#ff9809;
+  --el-button-hover-bg-color:#ff9809;
+  --el-button-active-border-color:#ff9809;
+  --el-button-hover-border-color:#ff9809;
+  --el-button-hover-text-color:#fff;
+  --el-button-active-text-color:#fff;
+}
+:deep(.el-checkbox) {
+    --el-checkbox-input-border-color-hover: #ff9809;
+	--el-checkbox-checked-bg-color: #ff9809;
+	--el-checkbox-checked-input-border-color: #ff9809;
+	--el-checkbox-checked-text-color: #ff9809;
+}
+:deep(.el-select){
+	--el-select-input-focus-border-color: #ff9809;
+}
+:deep(.el-input){
+	--el-input-focus-border: #ff9809;
+}
+:deep(.el-select-v2__wrapper.is-focused){
+	border-color: #ff9809;
+}
+.el-select-dropdown__item.selected {
+	color: #ff9809;
+}
+::v-deep input::-webkit-outer-spin-button,
+::v-deep input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+}
+::v-deep input[type='number'] {
+  -moz-appearance: textfield !important;
+}
+

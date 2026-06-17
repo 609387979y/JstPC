@@ -1,0 +1,40 @@
+.title{
+  font-size: 12px;
+  font-weight: 600;
+  color: #444;
+  padding: 8px 0 4px 0;
+}
+.sub-title {
+  line-height: 20px;
+  font-size: 12px;
+}
+.space{
+  width: 5px;
+}
+.height-box{
+  height: 10px;
+}
+.select-value {
+  float: right;
+  color: #8492a6;
+  font-size: 12px
+}
+.select-lable {
+  float: left
+}
+.flex-item{
+  display: flex;
+}
+.list-table {
+  :deep(.el-table .el-table__cell) {
+    padding: 1px 0;
+  }
+  :deep(.el-table .cell) {
+    padding-left: 1px;
+    padding-right: 1px;
+    line-height: 16px;
+  };
+  :deep(.el-table .caret-wrapper){
+    width:16px;
+  }
+}

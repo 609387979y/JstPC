@@ -1,0 +1,46 @@
+::v-deep .el-table th.el-table__cell>.cell {
+    padding: 0 8px;
+    color: #000000;
+}
+
+::v-deep .el-table--border th.el-table__cell {
+    background-color: #EFF6FC;
+    padding: 2px 0;
+}
+
+::v-deep .el-table--enable-row-transition .el-table__body td.el-table__cell {
+    padding: 2px 0;
+}
+
+::v-deep .el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
+    background: #F7F8FA;
+}
+
+::v-deep .el-table .cell {
+    padding: 0 5px;
+}
+
+::v-deep .el-table__column-filter-trigger {
+    float: right;
+}
+
+.suatusIcon {
+    display: flex;
+    align-items: center;
+}
+
+.successStatus {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #67C23A;
+    margin-right: 4px;
+}
+
+.errorStatus {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #EF4333;
+    margin-right: 4px;
+}

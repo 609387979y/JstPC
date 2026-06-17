@@ -1,0 +1,45 @@
+$table-background-color: #f8f8f8;
+$table-border-color: #ebeef5;
+@mixin field-title {
+    height: 40px;
+    line-height: 40px;
+    background-color: $table-background-color;
+    color: #909399;
+
+    border-bottom: 0;
+    box-sizing: border-box;
+    position: relative;
+    font-weight: 400;
+    text-align: center;
+}
+.mainifest-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid $table-border-color;
+    caption {
+        @include field-title;
+        text-align: right;
+        padding-right: 10px;
+    }
+    thead {
+        th {
+            font-size: 14px;
+            text-align: left;
+            font-weight: 400;
+            border: 1px solid $table-border-color;
+            @include field-title;
+            
+        }
+    }
+    td {
+        font-size: 14px;
+        border: 1px solid $table-border-color;
+    }
+    .qttk {
+        @include field-title;
+    }
+}
+.linkNum {
+    cursor: pointer;
+    color: #409eff;
+  }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>码头箱-亿加数据</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#6DD2FB" offset="0%"></stop>
+            <stop stop-color="#2CAAFE" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="码头箱动态" transform="translate(-152.000000, -46.000000)">
+            <g id="码头箱-亿加数据" transform="translate(152.000000, 46.000000)">
+                <circle id="椭圆形" fill="url(#linearGradient-1)" cx="27" cy="27" r="27"></circle>
+                <g id="logo-left.2f8c3005" transform="translate(14.000000, 16.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <rect id="矩形" x="15" y="4" width="4" height="13"></rect>
+                    <g id="编组" transform="translate(0.000000, 2.000000)">
+                        <rect id="矩形" x="0" y="6.33326612" width="23" height="4.41724402"></rect>
+                        <path d="M0,11.974384 L0,15.2659273 C0,16.2262693 0.795242766,17 1.77633761,17 L10.1132266,17 L10.1132266,11.974384 L0,11.974384 Z" id="路径"></path>
+                        <path d="M10.1132266,5.13448401 L10.1132266,0 L1.77633761,0 C0.795242766,0 0,0.79032141 0,1.76533452 L0,5.13462112 L10.1132266,5.13462112 L10.1132266,5.13448401 Z" id="路径"></path>
+                    </g>
+                    <rect id="矩形" x="19" y="0" width="4" height="4"></rect>
+                    <rect id="矩形" x="23" y="13" width="4" height="4"></rect>
+                    <rect id="矩形" x="11" y="17" width="4" height="4"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

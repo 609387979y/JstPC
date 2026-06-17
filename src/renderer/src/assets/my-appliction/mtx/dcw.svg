@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>码头箱- DCB/大铲湾</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FF975F" offset="0%"></stop>
+            <stop stop-color="#FF7B4A" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="码头箱动态" transform="translate(-248.000000, -237.000000)">
+            <g id="码头箱--DCB/大铲湾" transform="translate(248.000000, 237.000000)">
+                <circle id="椭圆形" fill="url(#linearGradient-1)" cx="27" cy="27" r="27"></circle>
+                <image id="33" x="12" y="14" width="29.6491228" height="26" xlink:href="data:image/png;base64,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"></image>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>货物跟踪-船舶定位</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FF945C" offset="0%"></stop>
+            <stop stop-color="#FF723E" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="货物跟踪" transform="translate(-371.000000, -46.000000)">
+            <g id="货物跟踪-船舶定位" transform="translate(371.000000, 46.000000)">
+                <circle id="椭圆形" fill="url(#linearGradient-1)" cx="27" cy="27" r="27"></circle>
+                <image id="14" x="10" y="17" width="33.44" height="19" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAZCAYAAABKM8wfAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAALKADAAQAAAABAAAAGQAAAACVr9BVAAACB0lEQVRYCc2YO0sjURiGjYUrirgoiFt4Aa0WtLGws1D0D9itCKKNpY1aCBKwEysFL1iIlY2FpSzbiLBso2Iqm1gIarxfd2HjJT5vnJExjkmcGcx54cn55ty+l5MzkzMJJRKJvIBVyXwLUA39sA7BSYYDpJ65omDrP0EPBJYjsIkw1QQxcNMYlSHwnc/3BJaJdsprSKclGgvBV05fg63kPyj11Wej33SqAM95PQ+0kg5QPsJHtEvn7+Apt6dBJNN+nACvOmdgG3w4vxIv8szpgis4gmPYhxOIwaEVH1Cq/RLmoBv86I7BEWuCIsovGSa7p31Whm8JijN0NqX5Jh8nm6a4ycLHtgyPZ9HRlC4zyYc5bv5Asymu3vGhe6lWKyyNPhdGf07jLm6vsJyuQYsCA/UPTzVwaq+wPI7ow1DN4+tU3pwrrOtl6FRgkP7ipQ70G5DnXGFdD0NcgUGaxEvSrDylGo5SN6UGQ3SGj1eP3VTD8hmGPQUGKIwHHQVelLqH7YYOglUI2RU5KHfI2QA6Q7zIbYXV+BN0Z+ZKDyTug1dmk2bSHPEKaPsFudAgSV2Pnq6Vjs5FxCuf6PiBXEOO/G/8valw6ax93gvOt2EuA1eEGVshraf3bjq3vav93mhRRan/H75BOZRBCXwFqRTUX3vxGiSduy9Ad71KHWb0gqCXhS3YgIx6AmyUg7Pf6XphAAAAAElFTkSuQmCC"></image>
+            </g>
+        </g>
+    </g>
+</svg>

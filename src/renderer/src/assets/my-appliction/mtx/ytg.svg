@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>码头箱-烟台港</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#90F0E1" offset="0%"></stop>
+            <stop stop-color="#5FE0E6" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="码头箱动态" transform="translate(-248.000000, -418.000000)">
+            <g id="码头箱-烟台港" transform="translate(248.000000, 418.000000)">
+                <circle id="椭圆形" fill="url(#linearGradient-1)" cx="27" cy="27" r="27"></circle>
+                <image id="53" x="15" y="14" width="24.3243243" height="25" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAlCAYAAAAqXEs9AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAJKADAAQAAAABAAAAJQAAAAAXbspMAAAEaUlEQVRYCcWXW4hVVRjHRxsmmaYLIpMNYqeYzCwqjIagsBDyQcouiIUvDT6lhBBSCMFAmWUJSQ8pFEnajXrIiDJ6CbvYBSK6kIVKDiVeRpuiQmyY5vT7zawVa+9z5uxzznToD7/5vm9dv7PW2nuvmVYul9vQbFgA++AY/G9qZ2a5E0bgfailTipnQg/MDf4M7CicgpPwExwJPqYxmUwvPAP3QzcMQSoTuBjmQwk2QJG20uA7+AS+Kmqc1k9jy/oo+DwUrsbuh9NwHpigq7ERmtELdNoLL4FjFouE5sET0Erdy+Dt0FaEW+aKfD9J6pso/xl+gB/hEDSjbXQag2eLOpuQ2gkHwSetA07BYXD/45m6An8quoPOXbAdfptsIM9QWjedwCRH0kL8xXAzrM+VNxM+QqePwJ3xFZOdq2BPO6hfBc9BK3Qfg2bOVdwyEq2Qdcvh+YqaiYJHMZ69QXBb3QZ/ravcCT6lc8BjcBX0Q6rXCb5JC/TzW5bWryR4OS0I/kPYz+BLmPQshLbR9OKYmPZSOAdehN2QkatQTYsovDZXsZXY99Wb8Huurij0gRHlys0Az0+l8ntI3A0PQqqnCZZAZr9bEVebYGmaCf5muKkVk1cb0wOYyqWclxbg++rfkytrWZg/1Ncx06e52c4k9umZDR7i09Ay5VfIpyDqCxyfDJOZBT7CLU2G8cffGVrlo+gqRH2A43tmLpwAE2u50sfehDaHGV2dXcFfEuxwsLXMLVT6A0ZrNQp1Y0kb8/A18HaakAc6yq+6h1kthcfgpEGBeqj3stesLknPUJrcgTDiZdgb4Reo5/zsod0r0Ky60oTSJRwKI87HeoWtJxm77Id4+zRuVO3pqqSH1hVRbkGjeosObv/ZkP5Ix/nbP0FnYAdiEOxYmlC6CrHjuaGhB75eDdLwyToam/SvsCVpO5JumR/MdaEyJvBXiC8I1vZpn1DclHEB0gfJQYbTwb22HrEUnT9h2v4Mdi22BG7BlZAfiKKG1UsPryJRm3CG0oSs8FCqiyZM5lLvFVatgWXj3tT+3ED3/mQIH4bR/Nd+Ol/gtfAxeA2ZCVF/4NjeNrfDihDnx6gn7qPvqxC1EacLKs6DW7IProfjcCH0geoCl9g24kXLK26jWkiH1XB36PgG9j2YOB5mlaOT2Mu3egCsP2CAnoLY/i78dfAw+IuL/hF0xV3ZHRC1C2c5xDHb/nXSQvyrYQN8CCWYA+oYpP8p9BN/awV6HJxwATi5290DC8F22yDVOwQrIZNDJshVemVdD8p2W8a9cvlr7JpQZvmiUN6I8Uq8GCrmryjINVpG7OQrQvlrWHUIBuAscAy3y4N5AmrJVXcVZ0HVufM3xnDOMsavvW9uXxHvQuZfXeJ7YCf8J8q/h6oNuptCL2i+tU3GK+1tsB3UDjgKA3A5TEn1rFCcoBvHa+wgDEMJXL1rYBXU0q1UDsFBsO+kaiShOEgHTnoz8HpSApM1aT8rfqf8Njq5iRwOPqa2/gGxffU8WCeQSQAAAABJRU5ErkJggg=="></image>
+            </g>
+        </g>
+    </g>
+</svg>

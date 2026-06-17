@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>码头箱- 北仑三期</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#6FF868" offset="0%"></stop>
+            <stop stop-color="#3EC885" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="码头箱动态" transform="translate(-152.000000, -140.000000)">
+            <g id="码头箱--北仑三期" transform="translate(152.000000, 140.000000)">
+                <circle id="椭圆形" fill="url(#linearGradient-1)" cx="27" cy="27" r="27"></circle>
+                <image id="22" x="9" y="16" width="41.1612903" height="22" xlink:href="data:image/png;base64,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"></image>
+            </g>
+        </g>
+    </g>
+</svg>

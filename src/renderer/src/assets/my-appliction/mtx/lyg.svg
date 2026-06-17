@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>码头箱-连云港</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#90F0E1" offset="0%"></stop>
+            <stop stop-color="#5FE0E6" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="码头箱动态" transform="translate(-344.000000, -418.000000)">
+            <g id="码头箱-连云港" transform="translate(344.000000, 418.000000)">
+                <circle id="椭圆形" fill="url(#linearGradient-1)" cx="27" cy="27" r="27"></circle>
+                <text id="连云港" font-family="PingFangSC-Semibold, PingFang SC" font-size="12" font-weight="500" fill="#FFFFFF">
+                    <tspan x="9" y="31">连云港</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
