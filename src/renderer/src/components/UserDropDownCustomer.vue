@@ -173,7 +173,7 @@ export default defineComponent({
       }
     },
     async logout() {
-      this.$agent.ipcRequest("login/logout")
+      this.$agent().ipcRequest("login/logout")
       await this.$store.dispatch("auth/logout");
       // 返回到登录页
       this.$router.replace("/");
