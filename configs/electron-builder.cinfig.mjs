@@ -13,7 +13,7 @@ const config = {
   publish: [
     {
       "provider": "generic",
-      "url": "http://www.jstower.cn/Releases/${os}"
+      "url": "https://www.port56.cn/Releases/${os}"
     }
   ],
   files: [
