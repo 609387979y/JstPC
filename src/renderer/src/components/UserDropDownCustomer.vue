@@ -20,42 +20,42 @@
             </div>
           </div>
         </template>
-        <div class="bottom-qrcode">
-          <div class="qrcode-box">
-            <div class="qrcode-img"><el-icon color="#fd953e" size="16">
-                <CircleCheck />
-              </el-icon></div>
-            <div class="qrcode-text">搜运价</div>
-          </div>
-          <div class="qrcode-box">
-            <div class="qrcode-img"><el-icon color="#fd953e" size="16">
-                <CircleCheck />
-              </el-icon></div>
-            <div class="qrcode-text">找舱位</div>
-          </div>
-          <div class="qrcode-box">
-            <div class="qrcode-img"><el-icon color="#fd953e" size="16">
-                <CircleCheck />
-              </el-icon></div>
-            <div class="qrcode-text">查船期</div>
-          </div>
-          <div class="qrcode-box">
-            <div class="qrcode-img"><el-icon color="#fd953e" size="16">
-                <CircleCheck />
-              </el-icon></div>
-            <div class="qrcode-text">卖舱位</div>
-          </div>
-          <div class="qrcode-box">
-            <div class="qrcode-img"><el-icon color="#fd953e" size="16">
-                <CircleCheck />
-              </el-icon></div>
-            <div class="qrcode-text">箱跟踪</div>
-          </div>
-          <div class="qrcode-box" style="width: 63px;">
-          </div>
-        </div>
-        <div class="openVipBtn" @click="openVip()">{{ isVipAndFree ? '续费会员' : '充值会员' }}</div>
-      </el-popover> -->
+<div class="bottom-qrcode">
+  <div class="qrcode-box">
+    <div class="qrcode-img"><el-icon color="#fd953e" size="16">
+        <CircleCheck />
+      </el-icon></div>
+    <div class="qrcode-text">搜运价</div>
+  </div>
+  <div class="qrcode-box">
+    <div class="qrcode-img"><el-icon color="#fd953e" size="16">
+        <CircleCheck />
+      </el-icon></div>
+    <div class="qrcode-text">找舱位</div>
+  </div>
+  <div class="qrcode-box">
+    <div class="qrcode-img"><el-icon color="#fd953e" size="16">
+        <CircleCheck />
+      </el-icon></div>
+    <div class="qrcode-text">查船期</div>
+  </div>
+  <div class="qrcode-box">
+    <div class="qrcode-img"><el-icon color="#fd953e" size="16">
+        <CircleCheck />
+      </el-icon></div>
+    <div class="qrcode-text">卖舱位</div>
+  </div>
+  <div class="qrcode-box">
+    <div class="qrcode-img"><el-icon color="#fd953e" size="16">
+        <CircleCheck />
+      </el-icon></div>
+    <div class="qrcode-text">箱跟踪</div>
+  </div>
+  <div class="qrcode-box" style="width: 63px;">
+  </div>
+</div>
+<div class="openVipBtn" @click="openVip()">{{ isVipAndFree ? '续费会员' : '充值会员' }}</div>
+</el-popover> -->
     </div>
 
     <MessageIcon style="margin-right: -5px" :isWhite="isWhiteText ? true : false" :typeFrom="typeFrom"></MessageIcon>
@@ -173,9 +173,10 @@ export default defineComponent({
       }
     },
     async logout() {
-      this.$message.success("登出成功");
+      this.$agent.ipcRequest("login/logout")
       await this.$store.dispatch("auth/logout");
-      window.location.href = "/"
+      // 返回到登录页
+      this.$router.replace("/");
 
       // window.location.reload();
     },
