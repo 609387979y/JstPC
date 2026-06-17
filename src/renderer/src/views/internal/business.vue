@@ -208,6 +208,11 @@ const columnList = reactive([
         width: 200
     },
     {
+        title: '专属客服',
+        field: 'ExclusiveSalesName',
+        width: 200
+    },
+    {
         title: '起运港',
         field: 'PolEnPortName',
         width: 120
@@ -294,6 +299,10 @@ const handleFun = (row) => {
             dialogKey.value = !dialogKey.value
         }
         return
+    }
+
+    if(row.ExclusiveSalesId && row.ExclusiveSalesId !=employee.value.Id){
+        ElMessage.warning('请联系专属销售处理')
     }
     handleDialog.value = true
     handleForm.OperatingRate = ''
