@@ -159,7 +159,7 @@
 <script>
 import OpportunityOverview from './components/OpportunityOverview.vue';
 import NotOpenDialogVue from '@/components/NotOpenDialog.vue';
-import ContactDialog from './components/contactDialog.vue';
+import ContactDialog from './components/ContactDialog.vue';
 import ConsumptionOverview from './components/ConsumptionOverview.vue';
 import MessageListItem from '@/components/message/MessageListItem.vue';
 import { defineComponent } from "vue";

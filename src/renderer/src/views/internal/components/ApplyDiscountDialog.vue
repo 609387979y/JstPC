@@ -247,7 +247,7 @@ import request from "@/public/request";
 import tools from "@/utils/Utils";
 import { useStore, Store } from "vuex";
 import { ArrowRight } from "@element-plus/icons";
-import ContactDialog from "./contactDialog.vue";
+import ContactDialog from "./ContactDialog.vue";
 import AppCard from "@/components/AppCard.vue";
 export default defineComponent({
   components: {
