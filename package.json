@@ -17,17 +17,14 @@
     "node": ">=14.0.0"
   },
   "build": {
-    "mac": {
-      "target": "dmg",
-      "dmg": {
-        "license": false
-      }
-    },
     "files": [
       "dist/**/*",
       "node_modules/**/*"
     ]
   },
+  "optionalDependencies": {
+    "dmg-license": "^1.0.11"
+  },  
   "dependencies": {
     "@electron/remote": "^2.0.8",
     "@element-plus/icons": "^0.0.11",
