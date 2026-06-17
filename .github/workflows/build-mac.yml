@@ -19,7 +19,7 @@ jobs:
         run: npm ci
       
       - name: Build macOS app
-        run: npm run dist
+        run: electron:buildMac
         # env:
         #   # 如果需要代码签名，在这里配置证书
         #   CSC_LINK: ${{ secrets.CSC_LINK }}

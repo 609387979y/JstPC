@@ -9,7 +9,8 @@
     "build": "node scripts/build.mjs",
     "dist": "electron-builder --mac",
     "pack": "electron-builder",
-    "electron:build": "npm run build && electron-builder"
+    "electron:build": "npm run build && electron-builder",
+    "electron:buildMac": "npm run build && electron-builder --mac"
   },
   "engines": {
     "node": ">=14.0.0"
