@@ -878,7 +878,7 @@ export default defineComponent({
 
         this.tableOption.loading = true;
         // /api/FRRateCus/GetRateCusList
-        let res = await request.get("/api/CargoRate/SaleRateInfoList", {
+        let res = await request.post("/api/CargoRate/SaleRateInfoList", {
           // Page: this.tableOption.page,
           // limit: this.tableOption.pageSize,
           ...this.search,
