@@ -303,6 +303,7 @@ const handleFun = (row) => {
 
     if(row.ExclusiveSalesId && row.ExclusiveSalesId !=employee.value.Id){
         ElMessage.warning('请联系专属销售处理')
+        return
     }
     handleDialog.value = true
     handleForm.OperatingRate = ''
