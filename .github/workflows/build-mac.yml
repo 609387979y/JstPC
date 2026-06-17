@@ -2,8 +2,8 @@ name: Build macOS
 
 on:
   push:
-    tags:
-      - 'v*'  # 打 tag 时触发，如 v1.0.0
+    branches: [ main ]
+      
 
 jobs:
   build-mac:
@@ -22,10 +22,10 @@ jobs:
       
       - name: Build macOS app
         run: npm run dist
-        env:
-          # 如果需要代码签名，在这里配置证书
-          CSC_LINK: ${{ secrets.CSC_LINK }}
-          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+        # env:
+        #   # 如果需要代码签名，在这里配置证书
+        #   CSC_LINK: ${{ secrets.CSC_LINK }}
+        #   CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
