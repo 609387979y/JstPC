@@ -51,22 +51,22 @@ let routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/InternalLayout.vue"),
     children: internalLayout,
   },
-  {
-    name: 'hxgj',
-    path: '/internal/hxgj',
-    component: () => import("@/views/iframeLayout.vue"),
-    meta: {
-      title: "航线轨迹"
-    }
-  },
-  {
-    name: 'cdw',
-    path: '/internal/cdw',
-    component: () => import("@/views/webViewLayout.vue"),
-    meta: {
-      title: "船定位"
-    }
-  }
+  // {
+  //   name: 'hxgj',
+  //   path: '/internal/hxgj',
+  //   component: () => import("@/views/iframeLayout.vue"),
+  //   meta: {
+  //     title: "航线轨迹"
+  //   }
+  // },
+  // {
+  //   name: 'cdw',
+  //   path: '/internal/cdw',
+  //   component: () => import("@/views/webViewLayout.vue"),
+  //   meta: {
+  //     title: "船定位"
+  //   }
+  // }
 
 ];
 
