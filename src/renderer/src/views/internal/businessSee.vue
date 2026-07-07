@@ -1,11 +1,11 @@
 <template>
     <div class="main-body">
         <div class="title">运价商机</div>
-        <searchComp @searchFun="searchFun" :searchList="searchList"></searchComp>
+        <searchComp @searchFun="searchFun" :form="search" @clearFun="clearFun" :searchList="searchList"></searchComp>
         <statisticsCom class="statistics">
             <div class="statistics-item">该条件下全部商机：<span>{{ tableOption.total }}</span></div>
-            <div class="statistics-item">待处理商机：<span>{{ tableData[0] ? tableData[0].NotCount : 0 }}</span></div>
-            <div class="statistics-item">已处理商机：<span>{{ tableData[0] ? tableData[0].InCount : 0 }}</span></div>
+            <div class="statistics-item">待受理商机：<span>{{ AllNum.NotCount }}</span></div>
+            <div class="statistics-item">已受理商机：<span>{{ AllNum.InCount }}</span></div>
         </statisticsCom>
         <AppVxeTable :tableHeightMin="'calc(100% - 300px)'" :rowId="'Id'" ref="businessRef"
             :tableHeaderKey="'businessTable'" :toolbarConfig="true" class="vex-table-primary freight-table"
@@ -26,9 +26,10 @@
             </template>
 
             <template #User="{ row }">
-                <div>
+                <div v-if="row.OperatingStatus">
                     {{ row.UserRealName }}<span v-if="row.UserMobilePhone">（{{ row.UserMobilePhone }}）</span>
                 </div>
+                <div v-else>******</div>
             </template>
 
             <template #box="{ row }">
@@ -116,6 +117,11 @@ const searchFun = (form) => {
     getList()
 }
 
+const clearFun = (form) => {
+    search.value = form
+    getList()
+}
+
 // 列表
 const tableData = ref([])
 const columnList = reactive([
@@ -134,10 +140,21 @@ const columnList = reactive([
         width: 120
     },
     {
+        title: '询价时间',
+        field: 'CreateTime',
+        width: 200
+    },
+
+    {
         title: '询价人',
         field: 'User',
         type: 'slot',
         slotName: 'User',
+        width: 200
+    },
+    {
+        title: '受理人',
+        field: 'OperatingEmployeeName',
         width: 200
     },
     {
@@ -163,7 +180,7 @@ const columnList = reactive([
     {
         title: '备注',
         field: 'SpecialRemark',
-        width: 200
+        minWidth: 200
     }
 ])
 const tableOption = reactive({
@@ -197,8 +214,32 @@ const getList = async () => {
     }
 }
 
+const AllNum = ref({
+    NotCount: 0,
+    InCount: 0
+})
+const getAll = async () => {
+    try {
+        let pd = {}
+        pd.Page = tableOption.page
+        pd.Limit = tableOption.pageSize
+        pd.CompanyId = store.state.auth.employee.CompanyId
+        const res = await request.post('/api/CargoRate/SelectCompanyBusinessDocuments', pd)
+        if (res.Rows && res.Rows.length) {
+            console.log(res.Rows[0].InCount)
+            AllNum.value.NotCount = res.Rows[0].NotCount
+            AllNum.value.InCount = res.Rows[0].InCount
+        }
+        console.log(res)
+    } catch (error) {
+        console.log(error)
+    } finally {
+    }
+}
+
 onMounted(async () => {
     await getList()
+    await getAll()
 })
 </script>
 

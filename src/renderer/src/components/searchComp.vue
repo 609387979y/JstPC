@@ -4,6 +4,9 @@
             :key="i">
             <div class="label" :style="{ 'width': item.labelWidth || '70px' }">{{ item.label }}</div>
             <div class="input">
+                <template v-if="item.type == 'slot'">
+                    <slot :name="item.slotName"></slot>
+                </template>
                 <el-input v-if="item.type == 'input'" :placeholder="item.placeholder || ''"
                     v-model="form[item.prop]"></el-input>
 
@@ -12,10 +15,27 @@
                         :key="i"></el-option>
                 </el-select>
 
-                <el-date-picker value-format="YYYY-MM-DD" v-if="item.type == 'daterange'" v-model="form[item.prop]"
-                    type="daterange" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" size="small" />
+                <div class="data-picker-container" style="display: flex;align-items: center;"
+                    v-if="item.type == 'daterange'">
+                    <el-date-picker value-format="YYYY-MM-DD" v-model="form[item.prop]" type="daterange"
+                        range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" size="small" />
+                    <template v-if="item.btn">
+                        <el-button size="small" style="margin-left: 5px" @click="onBtn('today')"
+                            :class="currentBtn === 'today' ? 'active-btn' : ''">今</el-button>
+                        <el-button size="small" @click="onBtn('yesterday')"
+                            :class="currentBtn === 'yesterday' ? 'active-btn' : ''">昨
+                        </el-button>
+                        <el-button size="small" @click="onBtn('senven')"
+                            :class="currentBtn === 'senven' ? 'active-btn' : ''">近7天
+                        </el-button>
+                        <el-button size="small" @click="onBtn('thirty')"
+                            :class="currentBtn === 'thirty' ? 'active-btn' : ''">近30天
+                        </el-button>
+                    </template>
+                </div>
 
-                <el-select v-model="form.PolPortId" v-if="item.type == 'Pol'" placeholder="请选择起运港">
+                <el-select v-model="form.PolPortId" v-if="item.type == 'Pol'" placeholder="请选择起运港" filterable remote
+                    :remote-method="getPortList">
                     <el-option v-for="(value, i) in portList"
                         :label="`${value.EnPortName},${value.Country}(${value.CnPortName})`" :value="value.Id"
                         :key="i"></el-option>
@@ -61,12 +81,20 @@
                         @selectPort="selectDesPort"
                       ></AppDestport> -->
                 </el-popover>
+
+                <el-select v-model="form.ShippingId" v-if="item.type == 'shipping'" placeholder="请选择船公司" filterable
+                    remote :remote-method="getShipList">
+                    <el-option v-for="(value, i) in shipList" :value="value.Id" :key="i">
+                        <span class="select-lable">{{ value.label }}</span>
+                        <span class="select-value">{{ value.CnShippingName }}</span>
+                    </el-option>
+                </el-select>
             </div>
 
 
         </div>
 
-        <el-button size="small" @click="searchFun">搜索</el-button>
+        <el-button size="small" @click="searchFun" class="search-btn">搜索</el-button>
         <span class="clear" @click="clearFun">清空内容</span>
     </div>
 </template>
@@ -80,10 +108,46 @@ const props = defineProps({
     searchList: {
         type: Array,
         default: () => []
+    },
+    form: {
+        type: Object,
+        default: () => { return {} }
     }
 });
-
-const form = ref({})
+const currentBtn = ref("");
+const getDate = (date, day) => {
+    let currentDate = new Date(date).getTime() + 1000 * 36 * 2400 * day;
+    var time = new Date(currentDate);
+    let y = time.getFullYear();
+    let m =
+        time.getMonth() + 1 < 10
+            ? "0" + (time.getMonth() + 1)
+            : time.getMonth() + 1;
+    let d = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();
+    return `${y}-${m}-${d}`;
+}
+const onBtn = (val) => {
+    currentBtn.value = val;
+    let start = "";
+    let end = getDate(new Date(), 0);
+    switch (val) {
+        case "today":
+            start = getDate(new Date(), 0);
+            break;
+        case "yesterday":
+            start = getDate(new Date(), -1);
+            break;
+        case "senven":
+            start = getDate(new Date(), -7);
+            break;
+        case "thirty":
+            start = getDate(new Date(), -30);
+            break;
+    }
+    props.form.date = props.form.date || []
+    props.form.date[0] = start
+    props.form.date[1] = end
+}
 
 //获取起运港
 const portList = ref([])
@@ -112,7 +176,7 @@ const watchInput = () => {
     if (searchPort.destPortName == "") {
         searchPort.DestPortId = "";
         searchPort.DestPortName = "";
-        form.value.DestPortId = "";
+        props.form.DestPortId = "";
         destPortVisible.value = false;
         // return (state.destPortVisible = true);
         return;
@@ -132,7 +196,7 @@ const getEndPortQuery = async () => {
 
 //选择目的港
 function selectDesPort(id, item) {
-    form.value.DestPortId = item.Id;
+    props.form.DestPortId = item.Id;
     searchPort.DestPortId = item.Id;
     searchPort.destPortName = item.EnPortName;
     watchInput();
@@ -142,27 +206,48 @@ function selectDesPort(id, item) {
 function confirmQuery(Id, value) {
     destPortVisible.value = false;
     searchPort.DestPortId = Id;
-    form.value.DestPortId = ''
-    form.value.DestPortId = Id;
+    props.form.DestPortId = ''
+    props.form.DestPortId = Id;
     searchPort.destPortName = value;
 }
 
 const emits = defineEmits(['searchFun', 'clearFun']);
 // 搜索
 const searchFun = () => {
-    emits('searchFun', form.value)
+    emits('searchFun', props.form)
 }
 
 const clearFun = () => {
-    form.value = {}
-    emits('searchFun', form.value)
+    emits('clearFun', {})
 }
+
+const shipList = ref([])
+async function getShipList(e,) {
+    let keyword;
+    e ? (keyword = e) : (keyword = "");
+    let res = await request.get("/api/FRShipping/GetShippingList", {
+        Page: 1,
+        limit: -1,
+        ShippingSimName: keyword,
+    });
+    let list = res.Rows;
+    for (let item of list) {
+        item.label = item.Code;
+        item.CnShippingName = item.CnShippingName;
+        item.value = item.Code;
+    }
+    shipList.value = list;
+}
+
 
 onMounted(() => {
     props.searchList.forEach(item => {
         console.log(item)
         if (item.type == 'Pol') {
             getPortList()
+        }
+        if (item.type == 'shipping') {
+            getShipList()
         }
     })
 })
@@ -172,6 +257,8 @@ onMounted(() => {
 .search {
     display: flex;
     flex-wrap: wrap;
+    background-color: #F7F8FA;
+    padding: 8px;
 
     .search-item {
         display: flex;
@@ -244,7 +331,7 @@ onMounted(() => {
     background: #fcf1e7;
 }
 
-:deep(.el-button) {
+.search-btn {
     padding: 0 17px;
     min-height: 24px;
     line-height: 24px;
@@ -267,5 +354,49 @@ onMounted(() => {
     height: 24px;
     margin-top: 4px;
     cursor: pointer;
+}
+
+.data-picker-container {
+
+    :deep(.el-button + .el-button) {
+        margin-left: 5px;
+    }
+
+    :deep(.el-button) {
+        color: #dcdee0;
+        border: 1px solid #dcdee0;
+        background: #f8f8f8;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        min-height: auto;
+    }
+
+    :deep(.el-range-editor.el-input__wrapper) {
+        width: 100% !important;
+    }
+
+    .active-btn {
+        color: #1f8efa;
+        border-color: #1f8efa;
+    }
+
+    :deep(.el-input__inner) {
+        width: 100%;
+    }
+
+    :deep(.el-button--mini) {
+        padding: 7px 5px;
+    }
+}
+
+.select-lable {
+    float: left;
+}
+
+.select-value {
+    float: right;
+    color: #8492a6;
+    font-size: 13px;
 }
 </style>

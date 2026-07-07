@@ -16,6 +16,50 @@
             class="recommended-dest-port" :isFreight="true" v-loading="destLoading">
         </AppDestPortContent>
     </div>
+
+    <el-dialog title="即时询价" v-model="discountDialog" custom-class="discount-dialog">
+        <el-form :model="discountForm" ref="discountRef" label-width="120px">
+            <el-form-item label="起运港">
+                <el-input size="small" v-model="discountForm.PolEnPortName" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="目的港">
+                <el-input size="small" v-model="discountForm.DestEnPortName" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="开始有效期">
+                <el-input size="small" v-model="discountForm.StartTime" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="结束有效期">
+                <el-input size="small" v-model="discountForm.EndTime" disabled></el-input>
+            </el-form-item>
+
+            <div class="form-flex" style="display: flex;">
+                <el-form-item label="箱型箱量" prop="Box" style="margin-right: 12px;">
+                    <el-select size="small" v-model="discountForm.Box" placeholder="选择箱型" clearable disabled>
+                        <el-option label="20GP" value="20GP"></el-option>
+                        <el-option label="40GP" value="40GP"></el-option>
+                        <el-option label="40HQ" value="40HQ"></el-option>
+                    </el-select>
+
+                </el-form-item>
+                <el-form-item label-width="0" prop="BoxAmount">
+                    <el-input size="small" v-model="discountForm.BoxAmount" placeholder="输入箱量" disabled></el-input>
+                </el-form-item>
+            </div>
+            <el-form-item label="备注" prop="SpecialRemark">
+                <el-input type="textarea" v-model="discountForm.SpecialRemark" placeholder="请输入备注">
+                </el-input>
+            </el-form-item>
+        </el-form>
+
+        <template #footer>
+            <div style="text-align: center;">
+                <el-button @click="discountDialog = false">取消</el-button>
+                <el-button :loading="btnLoading" type="primary" @click="sureFun" class="contact-price-buttom">
+                    确定
+                </el-button>
+            </div>
+        </template>
+    </el-dialog>
 </template>
 
 <script setup>
@@ -34,6 +78,10 @@ const formatDate = (date) => {
     return `${year}-${month}-${day}`;
 }
 
+
+const discountDialog = ref(false)
+const discountForm = ref({})
+
 const searchBtn = async () => {
     const now = new Date();
     const future = new Date(now);
@@ -46,6 +94,11 @@ const searchBtn = async () => {
         ElMessage.warning('请选择箱型箱量')
         return
     }
+    if (!search.value.StartTime || !search.value.EndTime) {
+        ElMessage.warning('请选开航日期(ETD)')
+        return
+    }
+    console.log(search.value)
     let pd = {
         PolEnPortName: search.value.PolPortName,
         DestEnPortName: search.value.DestPortName,
@@ -53,48 +106,55 @@ const searchBtn = async () => {
         DestPortId: search.value.DestPortId,
         PolCnPortName: search.value.CnPolPortName,
         DestCnPortName: search.value.CnDestPortName,
-        StartTime: search.value.StartTime ? search.StartTime : formatDate(now),
-        EndTime: search.value.EndTime ? search.EndTime : formatDate(future),
+        StartTime: search.value.StartTime ? search.value.StartTime : formatDate(now),
+        EndTime: search.value.EndTime ? search.value.EndTime : formatDate(future),
         Box: search.value.Box,
         BoxAmount: search.value.BoxAmount,
         Type: 2,
         RecordType: 2,
         Id: 0
     }
+
+    discountForm.value = pd
+
+    discountDialog.value = true
+    return
     // search.Type = 2
     // search.RecordType = 2
     // search.Id = 0
-    const res = await request.post("/api/CargoRate/CreateBusinessDocuments", pd)
-    if (!res.Status) {
-        ElMessage.error(res.Message)
-        return
-    }
-    ElMessage.success('成功')
 
-    getChatMenu()
+}
+
+const btnLoading = ref(false)
+const sureFun = async () => {
+    btnLoading.value = true
+    try {
+        const res = await request.post("/api/CargoRate/CreateBusinessDocuments", discountForm.value)
+        if (!res.Status) {
+            ElMessage.error(res.Message)
+            return
+        }
+        ElMessage.success('成功')
+        discountDialog.value = false
+        btnLoading.value = false
+
+        getChatMenu(res.Data)
+    } catch (error) {
+        btnLoading.value = false
+    }
 }
 
 const router = useRouter();
 const store = useStore()
-const getChatMenu = async () => {
+const getChatMenu = async (Id) => {
     let arr = []
     const res = await request.get('/api/CargoRate/GroupByBusinessDocuments')
-    let oldArr = []
 
-
-    if (store.state.menu.newList.length) {
-        store.state.menu.newList[store.state.menu.newList.length - 1].info.forEach(item => {
-            oldArr.push(item.url)
-        })
-    }
     let path, name, BusinessDocumentsId = ''
-    res.Data[res.Data.length - 1].info.forEach(item => {
-        if (oldArr.indexOf("/internal/ChatWin" + item.Id) == -1) {
-            path = "/internal/ChatWin" + item.Id
-            name = 'ChatWin' + item.Id
-            BusinessDocumentsId = item.Id
-        }
-    })
+    path = "/internal/ChatWin" + Id
+    name = 'ChatWin' + Id
+    BusinessDocumentsId = Id
+
     router.addRoute('internal', {
         name: name,
         path: path,
@@ -134,13 +194,20 @@ const selectDesPort = (Id, item) => {
     search.value.CnDestPortName = item.CnPortName
 }
 
-const search = ref({})
+const search = ref({
+    PolPortId: 675,
+})
 
 const Route = useRoute();
 
 const freightSearchRef = ref(null)
 
 onMounted(() => {
+    const now = new Date();
+    const future = new Date(now);
+    future.setDate(future.getDate() + 14);
+    search.value.StartTime = formatDate(now)
+    search.value.EndTime = formatDate(future)
     if (Route.query.search) {
         search.value = JSON.parse(Route.query.search)
         setTimeout(() => {
@@ -164,22 +231,25 @@ onMounted(() => {
     padding-bottom: 12px;
     padding-top: 12px;
     margin-top: 8px;
-    border: 1px solid #F5F5F5;
     background-color: #fff;
 }
 
 .recommendation {
-    margin-top: 12px;
     padding: 8px;
-    border: 1px solid #F5F5F5;
+    padding-top: 0;
     background-color: #fff;
 
     .recommendation-title {
-        padding-top: 16px;
         font-size: 16px;
         line-height: 24px;
         font-weight: 600;
         margin-bottom: 12px;
+    }
+}
+
+.form-flex {
+    :deep(.el-form-item) {
+        flex: 1;
     }
 }
 </style>

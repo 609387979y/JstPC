@@ -1,42 +1,47 @@
 <template>
   <div class="main-container">
-    <div class="header">
-      <div class="container">
-        <div class="items">
-          <div>
-            <img class="logo" @click="toWorkbench('1')" src="@/assets/logo.svg" />
-          </div>
-          <span class="logo-text">|</span>
-          &ensp;
-          <span class="logo-text weight">集运宝</span>
-
-          <!-- <el-button @click="testCreatePayOrder" type="primary">一键回收工资</el-button> -->
+    <el-aside v-if="menu.showSider" width="180px">
+      <div class="items menu-title">
+        <div>
+          <img class="logo" @click="toWorkbench('1')" src="@/assets/logoNew.png" />
         </div>
-        <div class="items login-group">
-          <UserDropDownCustomer :key="menuType" :menuType="menuType" @toWorkbench="toWorkbench" :isWhiteText="true">
-          </UserDropDownCustomer>
+        <span class="logo-text">|</span>
+        &ensp;
+        <span class="logo-text weight">集运宝</span>
+
+        <!-- <el-button @click="testCreatePayOrder" type="primary">一键回收工资</el-button> -->
+      </div>
+      <SiderMenu @selectChat="selectChat" @toWorkbench="toWorkbench" :menuType="menuType"></SiderMenu>
+    </el-aside>
+    <div style="width: calc(100vw - 181px);background-color: #fff;border-left: 1px solid #E5E5E5;">
+      <div class="header">
+        <div class="container">
+
+          <div class="chat-title">{{ chatTitle }}</div>
+          <div class="items login-group">
+            <UserDropDownCustomer :key="menuType" :menuType="menuType" @toWorkbench="toWorkbench" :isWhiteText="true">
+            </UserDropDownCustomer>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="main-content">
+      <div class="main-content">
 
 
-      <el-container style="height: 100%">
-        <el-aside v-if="menu.showSider" width="180px">
-          <SiderMenu :menuType="menuType"></SiderMenu>
-        </el-aside>
-        <el-main class="view">
-          <el-breadcrumb v-if="breadcrumb.currentBreadcrumb.length != 0" class="breadcrumb" separator="/">
-            <el-breadcrumb-item v-for="item in breadcrumb.currentBreadcrumb" :key="item.route"
-              :to="{ path: item.route }">{{
-                item.title }}</el-breadcrumb-item>
-          </el-breadcrumb>
-          <div class="view-content">
-            <router-view :key="$route.fullPath"></router-view>
-            <!-- <BaseJstInfoFooter style="margin-top:20px"></BaseJstInfoFooter> -->
-          </div>
-        </el-main>
-      </el-container>
+        <el-container style="height: 100%">
+
+          <el-main class="view">
+            <el-breadcrumb v-if="breadcrumb.currentBreadcrumb.length != 0" class="breadcrumb" separator="/">
+              <el-breadcrumb-item v-for="item in breadcrumb.currentBreadcrumb" :key="item.route"
+                :to="{ path: item.route }">{{
+                  item.title }}</el-breadcrumb-item>
+            </el-breadcrumb>
+            <div class="view-content">
+              <router-view :key="$route.fullPath"></router-view>
+              <!-- <BaseJstInfoFooter style="margin-top:20px"></BaseJstInfoFooter> -->
+            </div>
+          </el-main>
+        </el-container>
+      </div>
     </div>
   </div>
   <PayPlanDialog></PayPlanDialog>
@@ -62,11 +67,9 @@ import SiderMenu from "@/components/menu/SiderMenu.vue";
 import { getElectronAgent } from "@share/agent";
 import { useBreadcrumb } from "@/composables/useBreadcrumb";
 import { Minus, Close } from "@element-plus/icons";
-import UserInfoPopper from "./internal/internalComponents/UserInfoPopper.vue";
 import request from "@/public/request"
 import { ElMessage } from "element-plus"
 import { useCompanyCertification } from "@/composables/user/certification"
-import BaseJstInfoFooter from "./internal/internalComponents/BaseJstInfoFooter.vue"
 import UserDropDownCustomer from "@/components/UserDropDownCustomer.vue";
 import routes from '@/router/internal/applicationMenu.ts'
 
@@ -126,7 +129,7 @@ function useUser() {
     logout,
     isEmployeeLogin,
     companyName,
-    showUnReadMessage
+    showUnReadMessage,
   });
 }
 
@@ -178,8 +181,6 @@ export default defineComponent({
     SiderMenu,
     Minus,
     Close,
-    UserInfoPopper,
-    BaseJstInfoFooter,
     PayPlanDialog,
     RenewDialog,
     UserDropDownCustomer
@@ -209,20 +210,30 @@ export default defineComponent({
       }
     }
 
+    const chatTitle = ref('')
+    const selectChat = (name) => {
+      chatTitle.value = name
+    }
+
     const menuType = ref('1')
     const toWorkbench = (value) => {
       menuType.value = value
       let arr = []
       if (menuType.value == 2) {
         arr = [
-          {
-            name: "工作台",
-            url: "/internal/myApplications",
-          },
+          // {
+          //   name: "工作台",
+          //   url: "/internal/myApplications",
+          // },
           {
             name: "企业设置",
             url: "/internal/companyList",
           },
+          {
+            name: "企业权益",
+            url: "/internal/companyRights",
+          },
+
           // {
           //   name: "企业权益",
           //   url: "/internal/freightFind",
@@ -230,7 +241,6 @@ export default defineComponent({
           // },
           {
             name: "企业商机",
-            icon: "menu5.svg",
             url: "/instant",
             children: [
               {
@@ -255,11 +265,10 @@ export default defineComponent({
               }
             ]
           },
+
           {
             name: "企业数据",
             url: "/internal/data",
-            icon: "menu2.svg",
-            iconActive: "menu2Active.svg",
             children: [
               {
                 name: "企业运价",
@@ -293,7 +302,7 @@ export default defineComponent({
               iconActive: "menu3Active.svg"
             },
             {
-              name: "业务单据",
+              name: "询价记录",
               url: "/internal/BusinessDocument",
               icon: "menu5.svg",
               iconActive: "menu5Active.svg"
@@ -322,11 +331,11 @@ export default defineComponent({
             {
               name: "企业商机",
               url: "/internal/business",
-              icon: "menu5.svg",
-              iconActive: "menu5Active.svg"
+              icon: "menu9.svg",
+              iconActive: "menu9Active.svg"
             },
             {
-              name: "业务单据",
+              name: "询价记录",
               url: "/internal/BusinessDocument",
               icon: "menu5.svg",
               iconActive: "menu5Active.svg"
@@ -400,7 +409,7 @@ export default defineComponent({
           arr2[i].info.push({
             name: item.PolEnPortName + '-' + item.DestEnPortName,
             url: "/internal/ChatWin" + item.Id + '1',
-            query: { BusinessDocumentsId: item.Id, Type: '2' },
+            query: { BusinessDocumentsId: item.Id, Type: '2', DetailId: item.DetailId },
             icon: item.Type == 1 ? 'menu7.svg' : 'menu8.svg',
             iconActive: item.Type == 1 ? 'menu7Active.svg' : 'menu8Active.svg'
           })
@@ -446,7 +455,9 @@ export default defineComponent({
       windowOpt,
       goWorkbench,
       toWorkbench,
-      menuType
+      selectChat,
+      menuType,
+      chatTitle
     };
   },
 });
@@ -455,24 +466,57 @@ export default defineComponent({
 <style lang='scss' scoped>
 :deep(.el-aside) {
   overflow: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
+  height: calc(100vh - 5px);
   margin-bottom: 5px;
 }
 
 $header-height: 51px;
 
+.menu-title {
+  height: $header-height;
+  justify-content: center !important;
+}
+
+.items {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  /* 垂直居中 */
+}
+
+.logo {
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 14px;
+  color: #FD953E;
+}
+
+.weight {
+  font-family: PingFangSC-Medium;
+  letter-spacing: 0;
+  font-weight: 500;
+  color: #FD953E;
+}
+
 .header {
+  box-sizing: border-box;
   width: 100%;
   height: 51px;
   // height: 64px;
   position: relative;
   align-items: center;
-  background-color: #fd953e;
   // box-shadow: 0px 2px 4px 0px rgba(220, 223, 230, 0.5);
   // z-index: 3000;
   // background-image: linear-gradient(42deg, #457FFF 1%, #3775FF 99%);
   // box-shadow: 0 1px 0 0 #2B6DB0;
   box-shadow: 0 1px 0 0 rgba(220, 223, 230, 0.5);
+  padding: 8px;
+  padding-bottom: 0;
+  border-bottom: 1px solid #E5E5E5;
 
   .items {
     width: 100%;
@@ -483,6 +527,8 @@ $header-height: 51px;
   }
 
   .login-group {
+    width: 150px;
+    -webkit-app-region: no-drag;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -509,21 +555,22 @@ $header-height: 51px;
 
   .logo-text {
     font-size: 14px;
-    color: #f7f8fa;
+    color: #FD953E;
   }
 
   .weight {
     font-family: PingFangSC-Medium;
     letter-spacing: 0;
     font-weight: 500;
-    color: #ffffff;
+    color: #FD953E;
   }
 
   .container {
     height: 100%;
-    margin: 0 16px;
+    background-color: #fff;
     display: flex;
     justify-content: space-evenly;
+    -webkit-app-region: drag;
   }
 }
 
@@ -542,6 +589,7 @@ $header-height: 51px;
 }
 
 .main-container {
+  display: flex;
   background-color: #f7f8fa;
   height: 100%;
 
@@ -552,11 +600,9 @@ $header-height: 51px;
   }
 
   .view-content {
-    max-width: 1473px;
     margin: 0 auto;
     height: 100%;
     min-width: 900px;
-    background-color: #f5f5f5;
     padding: 8px;
     box-sizing: border-box;
   }
@@ -576,6 +622,7 @@ $header-height: 51px;
 
 .main-content {
   height: calc(100vh - $header-height);
+  background-color: #fff;
 }
 
 :deep(.el-breadcrumb__item .el-breadcrumb__inner) {
@@ -671,5 +718,15 @@ $header-height: 51px;
   text-overflow: ellipsis;
   white-space: no-warp;
 
+}
+
+.chat-title {
+  flex: 1;
+  font-size: 14px;
+  line-height: 22px;
+  color: #333;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
 }
 </style>

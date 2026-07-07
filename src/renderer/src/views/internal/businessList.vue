@@ -139,7 +139,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="5" style="margin-bottom: 6px;">
-                        <el-button icon="el-icon-search" type="primary" @click="getList" size="mini"
+                        <el-button type="primary" @click="getList" size="mini"
                             style="margin-left: 10px;">查询
                         </el-button>
                         <el-button type="text" class="clean" @click="reset">重置</el-button>

@@ -3,6 +3,7 @@ import { ViewSize } from "@main/common/consts";
 import { app, BrowserWindow, ipcMain, shell, Menu } from "electron";
 import * as path from "path";
 import os from "os";
+import mediator from "@main/websocket";
 const controllerName = "window";
 
 type ViewType = "small" | "normal";
@@ -196,7 +197,8 @@ const handlers: IpcHandlerType[] = [
         }
       },
     };
-  },
+  }
+
 ];
 
 export default handlers;

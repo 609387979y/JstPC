@@ -3,128 +3,68 @@
         <JstListLayout>
             <!-- 订单明细 -->
             <template #search>
-                <JstSearchForm @submit="getList" @reset="reset" style="margin-top: -16px;">
-                    <el-row>
-                        <el-col :span="6">
-                            <el-form-item label="起运港">
-                                <el-select v-model="state.search.PolPortId" style="width: 100%" filterable clearable
-                                    remote placeholder="请选择起始港" popper-class="freight-select-dropdown2"
-                                    :filter-method="getPortList">
-                                    <el-option v-for="item in state.portList" :key="item.value" :label="item.label"
-                                        :value="item.value" @click.native="PolPortIDSet(item)">
-                                        <span class="select-lable">{{ item.CnPortName }}</span>
-                                        <span class="select-value">{{ item.label }}</span>
-                                    </el-option>
+                <searchComp :form="state.search" @searchFun="searchFun" @clearFun="clearFun" :searchList="searchList"
+                    style="margin-bottom: 12px;">
+                    <template #LineType>
+                        <div style="display: flex;">
+                            <div class="item-flex">
+                                <el-select @click="
+                                    () => {
+                                        state.search.LineType != 1
+                                            ? (state.search.PodPortId = '')
+                                            : undefined;
+                                    }
+                                " v-model="state.search.LineType" popper-class="freight-select-dropdown2">
+                                    <el-option label="不限" :value="-1"></el-option>
+                                    <el-option label="直达" :value="0"></el-option>
+                                    <el-option label="中转" :value="1"></el-option>
                                 </el-select>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="目的港">
-                                <el-select v-model="state.search.DestPortId" style="width: 100%" filterable clearable
-                                    placeholder="请选择目的港" popper-class="freight-select-dropdown2"
-                                    :filter-method="getPortDetail">
-                                    <el-option v-for="item in state.portDetailList" :key="item.Id"
-                                        :label="item.CnPortName" :value="item.Id">
-                                        <span class="select-lable">{{ item.CnPortName }}</span>
-                                        <span class="select-value">{{ item.EnPortName }}</span>
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="船公司">
-                                <el-autocomplete @keydown.enter.native="initList" size="mini" style="width: 100%"
-                                    debounce clearable :trigger-on-focus="true" v-model="state.search.ShippingId"
-                                    :fetch-suggestions="getShipList" placeholder="请选择船公司">
-                                    <template #default="{ item }">
-                                        <span class="select-lable">{{ item.label }}</span>
-                                        <span class="select-value">{{ item.CnShippingName }}</span>
-                                    </template>
-                                </el-autocomplete>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="所属航线">
-                                <el-input v-model="state.search.LineId" placeholder="请输入所属航线">
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="航线代码">
-                                <el-input placeholder="航线代码" v-model="state.search.LineCode"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="3">
-                            <el-form-item label="中转/直达">
-                                <div class="item-flex">
-                                    <el-select @click="
-                                        () => {
-                                            state.search.LineType != 1
-                                                ? (state.search.PodPortId = '')
-                                                : undefined;
-                                        }
-                                    " v-model="state.search.LineType" popper-class="freight-select-dropdown2">
-                                        <el-option label="不限" :value="-1"></el-option>
-                                        <el-option label="直达" :value="0"></el-option>
-                                        <el-option label="中转" :value="1"></el-option>
-                                    </el-select>
-                                </div>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="3">
+                            </div>
                             <el-select v-model="state.search.PodPortId" style="margin-left: 4px" filterable clearable
                                 remote :remote-method="getPodPortList" placeholder="中转港"
                                 :disabled="state.search.LineType != 1">
                                 <el-option v-for="item in state.podPortList" :label="item.label"
-                                    :value="item.CnPortName"></el-option>
+                                    :value="item.Id"></el-option>
                             </el-select>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="截关/开航">
-                                <div class="flex-item" style="display: flex;">
-                                    <el-select v-model="state.search.CSTDate" clearable collapse-tags
-                                        popper-class="freight-select-dropdown2">
-                                        <el-option v-for="item in state.week" :key="item.value" :value="item.value"
-                                            :label="item.label">
-                                        </el-option>
-                                    </el-select>
-                                    &ensp;
-                                    <el-select v-model="state.search.ETDDate" clearable collapse-tags
-                                        popper-class="freight-select-dropdown2">
-                                        <el-option v-for="item in state.week" :key="item.value" :value="item.value"
-                                            :label="item.label">
-                                        </el-option>
-                                    </el-select>
-                                </div>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="排序字段">
-                                <div class="flex-item" style="display: flex;">
-                                    <el-select v-model="state.search.SortValue" clearable
-                                        popper-class="freight-select-dropdown2" @clear="
-                                            () => { state.search.SortKey = '' }">
-                                        <el-option value="20GP" label="20GP"></el-option>
-                                        <el-option value="40GP" label="40GP"></el-option>
-                                        <el-option value="40HQ" label="40HQ"></el-option>
-                                    </el-select>
-                                    &ensp;
-                                    <el-select v-model="state.search.SortKey" :disabled="!state.search.SortValue"
-                                        clearable popper-class="freight-select-dropdown2">
-                                        <el-option label="升序" :value="0" />
-                                        <el-option label="降序" :value="1" />
-                                    </el-select>
-                                </div>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="18">
-                            <el-form-item label="有效时间">
-                                <JstDateRange v-model:start="state.search.StartTime" v-model:end="state.search.EndTime">
-                                </JstDateRange>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                </JstSearchForm>
+                        </div>
+                    </template>
+
+                    <template #Date>
+                        <div class="flex-item" style="display: flex;">
+                            <el-select v-model="state.search.CSTDate" clearable collapse-tags
+                                popper-class="freight-select-dropdown2">
+                                <el-option v-for="item in state.week" :key="item.value" :value="item.value"
+                                    :label="item.label">
+                                </el-option>
+                            </el-select>
+                            &ensp;
+                            <el-select v-model="state.search.ETDDate" clearable collapse-tags
+                                popper-class="freight-select-dropdown2">
+                                <el-option v-for="item in state.week" :key="item.value" :value="item.value"
+                                    :label="item.label">
+                                </el-option>
+                            </el-select>
+                        </div>
+                    </template>
+
+                    <template #SortValue>
+                        <div class="flex-item" style="display: flex;">
+                            <el-select v-model="state.search.SortValue" clearable
+                                popper-class="freight-select-dropdown2" @clear="
+                                    () => { state.search.SortKey = '' }">
+                                <el-option value="20GP" label="20GP"></el-option>
+                                <el-option value="40GP" label="40GP"></el-option>
+                                <el-option value="40HQ" label="40HQ"></el-option>
+                            </el-select>
+                            &ensp;
+                            <el-select v-model="state.search.SortKey" :disabled="!state.search.SortValue" clearable
+                                popper-class="freight-select-dropdown2">
+                                <el-option label="升序" :value="0" />
+                                <el-option label="降序" :value="1" />
+                            </el-select>
+                        </div>
+                    </template>
+                </searchComp>
             </template>
             <template #table>
                 <AppPageTable @change="getList" :fixedHeight="state.fixedHeight" :data="state.tableData"
@@ -489,12 +429,111 @@ import { useTableOption } from "justom-share"
 import request from "@/public/request";
 import { ElMessage, ElMessageBox } from 'element-plus'
 import AppPageTable from "@/components/AppPageTable/AppPageTable.vue";
+import { useStore } from "vuex";
+import searchComp from '@/components/searchComp.vue';
+
+const searchFun = (form) => {
+    if (form.date && form.date.length) {
+        form.StartTime = form.date[0]
+        form.EndTime = form.date[1]
+    }
+
+    console.log(form)
+
+    state.search = form
+    getList()
+}
+
+const clearFun = () => {
+    state.search = {
+        PolPortId: '',
+        DestPortId: '',
+        ShippingId: '',
+        LineId: '',
+        LineCode: '',
+        LineType: -1,
+        PodPortId: '',
+        CSTDate: '',
+        ETDDate: '',
+        SortValue: '',
+        SortKey: '',
+        StartTime: '',
+        EndTime: '',
+        IsRelease: 1,
+    }
+}
+
+const searchList = reactive([
+    {
+        label: '起运港',
+        type: 'Pol'
+    },
+    {
+        label: '目的港',
+        type: 'destPort'
+    },
+    {
+        label: '船公司',
+        type: 'shipping'
+    },
+    {
+        label: '所属航线',
+        type: 'input',
+        prop: 'LineId',
+        placeholder: '请输入所属航线'
+    },
+    {
+        label: '航线代码',
+        type: 'input',
+        prop: 'LineCode',
+        placeholder: '航线代码'
+    },
+    {
+        label: '中转/直达',
+        type: 'slot',
+        slotName: 'LineType',
+    },
+    {
+        label: '截关/开航',
+        type: 'slot',
+        slotName: 'Date',
+    },
+    {
+        label: '排序字段',
+        type: 'slot',
+        slotName: 'SortValue',
+    },
+    {
+        label: '有效时间',
+        type: 'daterange',
+        prop: 'date'
+    }
+])
+
+const store = useStore();
 
 const state = reactive({
     activeName: 0,
     option: useTableOption(),
     tableData: [],
     feeDetailData: [],
+
+    unForm: {
+        PolPortId: '',
+        DestPortId: '',
+        ShippingId: '',
+        LineId: '',
+        LineCode: '',
+        LineType: -1,
+        PodPortId: '',
+        CSTDate: '',
+        ETDDate: '',
+        SortValue: '',
+        SortKey: '',
+        StartTime: '',
+        EndTime: '',
+        IsRelease: 1,
+    },
 
     search: {
         PolPortId: '',
@@ -580,15 +619,23 @@ const formatPriorityFields = (row) => {
         return '- -';
     }
 }
+const employee = computed(() => {
+    if (store.state.auth.employee) {
+        return store.state.auth.employee;
+    } else {
+        return {};
+    }
+});
 const getList = async () => {
-    let res = await request.get("/api/CargoRate/ProviderRateInfo", {
+    let res = await request.post("/api/CargoRate/SaleRateInfoList", {
         Page: state.option.page,
         Limit: state.option.pageSize,
+        companyId: employee.value.CompanyId,
         ...state.search,
         LineType: state.search.LineType == -1 ? null : state.search.LineType
     })
-    state.option.total = res.Total
-    state.tableData = res.Rows;
+    state.option.total = res.Data.Total
+    state.tableData = res.Data.Rows;
 };
 const reset = async () => {
     state.search = {

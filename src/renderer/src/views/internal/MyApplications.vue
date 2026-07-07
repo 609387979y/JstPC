@@ -61,7 +61,8 @@
       <el-row :gutter="8">
         <template v-for="(moduleId, index) in selectedWorkbenchModules" :key="moduleId">
           <el-col :span="24" v-if="moduleComponents[moduleId]">
-            <component style="width: 100%;" :is="moduleComponents[moduleId].component" :ref="moduleId + 'Ref'" :search="search" />
+            <component style="width: 100%;" :is="moduleComponents[moduleId].component" :ref="moduleId + 'Ref'"
+              :search="search" />
           </el-col>
         </template>
       </el-row>
@@ -297,9 +298,13 @@ export default defineComponent({
     async getAllApp() {
       // const appNames = ["市场运价", "电商运价", "在舱运价",] 
       // let res = await this.$http.get("/api/Application/GetAllApplications");
-      let res = await this.$http.get("/api/CargoRate/EmployeeMenuShortcut");
-      this.appList = res.Data.Menu
-      this.allAppList = res.Data.Info
+      try {
+        let res = await this.$http.get("/api/CargoRate/EmployeeMenuShortcut");
+        this.appList = res.Data.Menu
+        this.allAppList = res.Data.Info
+      } catch (error) {
+        console.log(error)
+      }
       // .filter(item => { return !appNames.includes(item.AppName) });
     },
     openMyApp(path) {
@@ -463,10 +468,14 @@ export default defineComponent({
       }
     },
     // 处理消息点击
-    chooseMessage(msg) {
-      this.$http.post("/api/Message/SetReadStatus", {
+    async chooseMessage(msg) {
+      await this.$http.post("/api/Message/SetReadStatus", {
         msgId: msg.Id
       })
+      let res = await this.$http.get("/api/Message/UnReadMessageCount", {
+        onlyUser: this.onlyUser,
+      });
+      this.$store.commit("menu/setUnReadCount", res)
       msg.IsRead = true;
       // 跳转到详情页
       // this.$router.push({

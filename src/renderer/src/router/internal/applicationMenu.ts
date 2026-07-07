@@ -39,7 +39,7 @@ const routes: RouteRecordRaw[] = [
     path: "/internal/BusinessDocument",
     component: () => import("@/views/internal/BusinessDocument.vue"),
     meta: {
-      title: "业务单据",
+      title: "询价记录",
     },
   },
   {
@@ -75,27 +75,19 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    name: "companyRights",
+    path: "/internal/companyRights",
+    component: () => import("@/views/internal/companyRights.vue"),
+    meta: {
+      title: "企业权益",
+    },
+  },
+  {
     name: "userDetail",
     path: "/internal/userDetail",
     component: () => import("@/views/internal/userDetail.vue"),
     meta: {
       title: "个人设置",
-    },
-  },
-  {
-    name: "help",
-    path: "/internal/help",
-    component: () => import("@/views/internal/Help.vue"),
-    meta: {
-      title: "帮助",
-    },
-  },
-  {
-    name: "applicationMenu",
-    path: "/internal/applicationMenu",
-    component: () => import("@/views/internal/ApplicationMenu.vue"),
-    meta: {
-      title: "应用商城",
     },
   },
   {
@@ -143,7 +135,15 @@ const routes: RouteRecordRaw[] = [
       keepAlive: true,
     },
   },
-
+  {
+    name: "systemMessage",
+    path: "/system/message",
+    component: () => import("@/views/internal/system/message/Message.vue"),
+    meta: {
+      title: "消息管理",
+      lastPagePath: "/internal/home"
+    }
+  },
 
 
   {

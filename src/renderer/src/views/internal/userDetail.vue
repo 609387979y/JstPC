@@ -30,10 +30,8 @@
           </JstFormField>
         </el-col> -->
         <el-col :span="8">
-          <JstFormField main="value">
-            <template #title>入驻时间：</template>
-            {{ state.info.CreateTime }}
-          </JstFormField>
+          <span style="color: #737475;font-size: 14px;">入驻时间：</span>
+          {{ state.info.CreateTime }}
         </el-col>
       </el-row>
     </div>
@@ -657,7 +655,6 @@ onMounted(async () => {
 }
 
 .tabs-box {
-  padding: 0 33px;
   margin-top: -40px;
 }
 
@@ -680,5 +677,8 @@ onMounted(async () => {
 .step-description {
   width: 200px;
   transform: translateX(-35px);
+}
+.detail-header-container {
+  padding: 25px 0 !important;
 }
 </style>

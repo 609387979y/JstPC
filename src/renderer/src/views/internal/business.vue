@@ -5,8 +5,8 @@
             <el-tab-pane label="未受理" name="1"></el-tab-pane>
             <el-tab-pane label="已受理" name="2"></el-tab-pane>
         </el-tabs>
-        <searchComp @searchFun="searchFun" :searchList="searchList"></searchComp>
-        <AppVxeTable v-loading="loading" :tableHeightMin="'calc(100% - 300px)'" :key="tableData" :rowId="'Id'"
+        <searchComp @searchFun="searchFun" :form="search" @clearFun="clearFun" :searchList="searchList"></searchComp>
+        <AppVxeTable v-loading="loading" :tableHeightMin="'calc(100% - 300px)'" :key="listType" :rowId="'Id'"
             ref="businessRef" :tableHeaderKey="'businessTable'" :toolbarConfig="true"
             class="vex-table-primary freight-table" :tableData="tableData" :tableOption="tableOption"
             @getTableList="getList()" :tableHeight="'1000'" :columnList="columnList">
@@ -47,15 +47,11 @@
                 </div>
             </template>
 
-            <template #User="{ row }" v-if="listType != 1 && !loading">
-                <div>
+            <template #User="{ row }">
+                <div v-if="row.OperatingStatus">
                     {{ row.UserRealName }}<span v-if="row.UserMobilePhone">（{{ row.UserMobilePhone }}）</span>
                 </div>
-            </template>
-            <template #User="{ row }" v-else>
-                <div>
-                    ******
-                </div>
+                <div v-else>******</div>
             </template>
         </AppVxeTable>
     </div>
@@ -63,22 +59,22 @@
         <div class="handleDialog-title">询价信息</div>
         <div class="handleDialog-info">
             <div class="handleDialog-info-item">
-                起运港: NINGBO 宁波
+                起运港: {{ selectData.PolEnPortName }}
             </div>
             <div class="handleDialog-info-item">
-                目的港: FELIXSTOWE 弗利克斯托
+                目的港: {{ selectData.DestEnPortName }}
             </div>
             <div class="handleDialog-info-item">
-                开始有效期：2023-09-12
+                开始有效期：{{ selectData.StartTime }}
             </div>
             <div class="handleDialog-info-item">
-                结束有效期：2023-09-12
+                结束有效期：{{ selectData.EndTime }}
             </div>
             <div class="handleDialog-info-item">
-                箱型箱量：40GP*1
+                箱型箱量：{{ selectData.Box + '*' + selectData.BoxAmount }}
             </div>
             <div class="handleDialog-info-item">
-                备注：船名航次：AEU5 6.11 EVER GLOBE 1404W
+                备注：{{ selectData.SpecialRemark }}
             </div>
 
         </div>
@@ -99,7 +95,7 @@
         <template #footer>
             <div style="text-align: center;">
                 <el-button @click="handleDialog = false">取消</el-button>
-                <el-button type="primary" @click="sureFun" class="contact-price-buttom">
+                <el-button type="primary" :loading="btnLoading" @click="sureFun" class="contact-price-buttom">
                     确认
                 </el-button>
             </div>
@@ -124,10 +120,129 @@ const router = useRouter()
 
 const listType = ref('1')
 
-const handleClick = () => {
+const handleClick = (e) => {
     loading.value = true
     search.value.OperatingStatus = listType.value != 1
     getList()
+    if (listType.value == 2) {
+        columnList.value = [
+            {
+                title: '商机类型',
+                field: 'OperatingStatus',
+                type: 'slot',
+                slotName: 'OperatingStatus',
+                minWidth: 120
+            },
+            {
+                title: '商机类型',
+                field: 'Type',
+                type: 'slot',
+                slotName: 'Type',
+                width: 120
+            },
+            {
+                title: '询价时间',
+                field: 'CreateTime',
+                width: 200
+            },
+            {
+                title: '询价人',
+                field: 'User',
+                type: 'slot',
+                slotName: 'User',
+                width: 200
+            },
+            {
+                title: '受理人',
+                field: 'OperatingEmployeeName',
+                width: 200
+            },
+            {
+                title: '起运港',
+                field: 'PolEnPortName',
+                width: 120
+            },
+            {
+                title: '目的港',
+                field: 'DestEnPortName',
+                width: 120
+            },
+            {
+                title: '开始有效期',
+                field: 'StartTime',
+                width: 140
+            },
+            {
+                title: '结束有效期',
+                field: 'EndTime',
+                width: 140
+            },
+            {
+                title: '备注',
+                field: 'SpecialRemark',
+                minWidth: 200
+            }
+        ]
+    } else {
+        columnList.value = [
+            {
+                title: '商机类型',
+                field: 'OperatingStatus',
+                type: 'slot',
+                slotName: 'OperatingStatus',
+                width: 120
+            },
+            {
+                title: '商机类型',
+                field: 'Type',
+                type: 'slot',
+                slotName: 'Type',
+                width: 120
+            },
+            {
+                title: '询价时间',
+                field: 'CreateTime',
+                width: 200
+            },
+            {
+                title: '询价人',
+                field: 'User',
+                type: 'slot',
+                slotName: 'User',
+                width: 200
+            },
+            {
+                title: '专属客服',
+                field: 'ExclusiveSalesName',
+                width: 120
+            },
+            {
+                title: '起运港',
+                field: 'PolEnPortName',
+                width: 120
+            },
+            {
+                title: '目的港',
+                field: 'DestEnPortName',
+                width: 120
+            },
+            {
+                title: '开始有效期',
+                field: 'StartTime',
+                width: 140
+            },
+            {
+                title: '结束有效期',
+                field: 'EndTime',
+                width: 140
+            },
+            {
+                title: '备注',
+                field: 'SpecialRemark',
+                minWidth: 200
+            }
+        ]
+    }
 }
 
 const searchList = reactive([
@@ -185,7 +300,7 @@ const searchList = reactive([
 
 // 列表
 const tableData = ref([])
-const columnList = reactive([
+const columnList = ref([
     {
         title: '商机类型',
         field: 'OperatingStatus',
@@ -200,6 +315,12 @@ const columnList = reactive([
         slotName: 'Type',
         width: 120
     },
+
+    {
+        title: '询价时间',
+        field: 'CreateTime',
+        width: 200
+    },
     {
         title: '询价人',
         field: 'User',
@@ -210,7 +331,7 @@ const columnList = reactive([
     {
         title: '专属客服',
         field: 'ExclusiveSalesName',
-        width: 200
+        width: 120
     },
     {
         title: '起运港',
@@ -235,7 +356,7 @@ const columnList = reactive([
     {
         title: '备注',
         field: 'SpecialRemark',
-        width: 200
+        minWidth: 200
     }
 ])
 const tableOption = reactive({
@@ -252,14 +373,13 @@ const searchFun = (form) => {
     getList()
 }
 
+const clearFun = (form) => {
+    search.value = {}
+    search.value.OperatingStatus = listType.value != 1
+    getList()
+}
+
 const sonColumnList = reactive([
-    {
-        title: '操作',
-        field: 'cz',
-        type: 'slot',
-        slotName: 'cz',
-        width: 120
-    },
     {
         title: '供应商',
         field: 'CompanyName',
@@ -289,11 +409,23 @@ const chatDialog = ref(false)
 
 // 受理
 const dialogKey = ref(false)
+const BusinessDocumentsId = ref(null)
 const handleFun = (row) => {
     if (!employee.value) return ElMessage.warning('请先进行职业认证')
     if (row.OperatingStatus) {
         if (row.OperatingEmployeeId == employee.value.Id) {
-            router.push({ path: '/internal/ChatWin' + row.Id + '1', query: { BusinessDocumentsId: row.Id, Type: 2 } })
+            let path = '/internal/ChatWin' + row.Id + '1'
+            console.log(store.state.menu.replyList, 'store.state.menu.replyList')
+            store.state.menu.replyList.forEach(item => {
+                if (item.info) {
+                    item.info.forEach(item2 => {
+                        if (item2.url == path) {
+                            router.push({ path: item2.url, query: item2.query })
+                        }
+                    })
+                }
+            })
+
         } else {
             chatDialog.value = true
             dialogKey.value = !dialogKey.value
@@ -301,10 +433,12 @@ const handleFun = (row) => {
         return
     }
 
-    if(row.ExclusiveSalesId && row.ExclusiveSalesId !=employee.value.Id){
+    if (row.ExclusiveSalesId && row.ExclusiveSalesId != employee.value.Id) {
         ElMessage.warning('请联系专属销售处理')
         return
     }
+    selectData.value = row
+    BusinessDocumentsId.value = row.Id
     handleDialog.value = true
     handleForm.OperatingRate = ''
     handleForm.OperatingRateRemark = ''
@@ -313,6 +447,8 @@ const handleFun = (row) => {
         handleFormRef.value.clearValidate()
     })
 }
+
+const selectData = ref({})
 const handleDialog = ref(false)
 const handleForm = reactive({})
 const rules = reactive({
@@ -321,41 +457,35 @@ const rules = reactive({
 
 // 确定
 const handleFormRef = ref(null)
+const btnLoading = ref(false)
 const sureFun = async () => {
     const valid = await handleFormRef.value.validate()
     if (!valid) return
+    btnLoading.value = true
     try {
         handleForm.OperatingStatus = true
         const res = await request.post('/api/CargoRate/BusinessDocumentsStatus', handleForm)
         if (!res.Status) return ElMessage.error(res.Message)
         ElMessage.success('成功')
+        handleDialog.value = false
+        btnLoading.value = false
         getList()
-        getChatMenuTwo()
+        getChatMenuTwo(BusinessDocumentsId.value)
     } catch (error) {
-
+        btnLoading.value = false
+    } finally {
     }
     console.log(valid)
 }
 
-const getChatMenuTwo = async () => {
+const getChatMenuTwo = async (Id) => {
     let arr = []
     const res = await request.get('/api/CargoRate/GroupByBusinessDocumentsDetails')
-    let oldArr = []
-
-
-    if (store.state.menu.replyList.length) {
-        store.state.menu.replyList[store.state.menu.replyList.length - 1].info.forEach(item => {
-            oldArr.push(item.url)
-        })
-    }
     let path, name, BusinessDocumentsId = ''
-    res.Data[res.Data.length - 1].info.forEach(item => {
-        if (oldArr.indexOf("/internal/ChatWin" + item.Id) == -1) {
-            path = "/internal/ChatWin" + item.Id + '1'
-            name = 'ChatWin' + item.Id + '1'
-            BusinessDocumentsId = item.Id
-        }
-    })
+    path = "/internal/ChatWin" + Id + '1'
+    name = 'ChatWin' + Id + '1'
+    BusinessDocumentsId = Id
+    console.log(path)
     router.addRoute('internal', {
         name: name,
         path: path,
@@ -366,6 +496,7 @@ const getChatMenuTwo = async () => {
     })
     res.Data.forEach((value, i) => {
         value.info.forEach(item => {
+            console.log(item, 23112313)
             arr[i] = arr[i] || {
                 Time: value.Time.substring(0, 10),
                 info: []
@@ -373,7 +504,7 @@ const getChatMenuTwo = async () => {
             arr[i].info.push({
                 name: item.PolEnPortName + '-' + item.DestEnPortName,
                 url: "/internal/ChatWin" + item.Id + '1',
-                query: { BusinessDocumentsId: item.Id, Type: '2' },
+                query: { BusinessDocumentsId: item.Id, Type: '2', DetailId: item.DetailId },
                 icon: item.Type == 1 ? 'menu7.svg' : 'menu8.svg',
                 iconActive: item.Type == 1 ? 'menu7Active.svg' : 'menu8Active.svg'
             })
@@ -382,9 +513,17 @@ const getChatMenuTwo = async () => {
     })
 
     console.log(arr)
-
     store.commit("menu/setReplyList", arr);
-    router.push({ path: path, query: { BusinessDocumentsId: BusinessDocumentsId, Type: '2' } })
+    arr.forEach(item => {
+        if (item.info) {
+            item.info.forEach(item2 => {
+                if (item2.url == path) {
+                    router.push({ path: item2.url, query: item2.query })
+                }
+            })
+        }
+    })
+
 }
 
 const search = ref({
@@ -497,7 +636,7 @@ onMounted(async () => {
 
 .handleDialog-title {
     font-weight: 600;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 20px;
     margin-top: 24px;
     border-bottom: 1px solid #DCDFE6;
@@ -506,7 +645,7 @@ onMounted(async () => {
 
 .handleDialog-info {
     margin-top: 8px;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 20px;
     color: #323233;
 
@@ -516,7 +655,6 @@ onMounted(async () => {
     }
 
     :deep(.el-form-item__label) {
-        font-size: 12px;
         color: #000;
     }
 }
@@ -536,6 +674,6 @@ onMounted(async () => {
 }
 
 :deep(.vxe-table--body-wrapper) {
-    min-height: calc(100vh - 370px);
+    min-height: calc(100vh - 362px);
 }
 </style>

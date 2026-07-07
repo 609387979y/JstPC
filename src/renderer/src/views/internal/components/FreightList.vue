@@ -192,14 +192,14 @@
           </div>
         </template>
       </vxe-column>
-      <vxe-column field="UpdateTime" title="更新状态" sortable width="80" :resizable="true">
+      <vxe-column field="UpdateTime" title="更新状态" sortable width="120" :resizable="true">
         <template #default="{ row }">
           <TimeTag v-if="row.isJETRate === true" custom customText="实时运价" customclassName="latest"
             :date="row.UpdateTime"></TimeTag>
           <TimeTag v-else :date="row.UpdateTime"></TimeTag>
         </template>
       </vxe-column>
-      <vxe-column field="ShippingCode" title="船公司" sortable width="80" :resizable="true">
+      <vxe-column field="ShippingCode" title="船公司" sortable width="120" :resizable="true">
         <template #default="{ row }">
           {{ row.ShippingCode }}
           <!-- 船公司悬浮 -->
@@ -214,7 +214,7 @@
           </el-popover>
         </template>
       </vxe-column>
-      <vxe-column field="LineCode" title="航线" sortable width="60" :resizable="true" show-overflow>
+      <vxe-column field="LineCode" title="航线" sortable width="100" :resizable="true" show-overflow>
         <template #default="{ row }">
           {{ row.LineCode }}
         </template>
@@ -244,12 +244,12 @@
           </div>
         </template>
       </vxe-column>
-      <vxe-column field="LineName" title="所属航线" sortable width="80" :resizable="true" show-overflow>
+      <vxe-column field="LineName" title="所属航线" sortable width="120" :resizable="true" show-overflow>
         <template #default="{ row }">
           {{ row.LineName }}
         </template>
       </vxe-column>
-      <vxe-column field="LineDetailName" title="所属细分" sortable width="80" :resizable="true" show-overflow>
+      <vxe-column field="LineDetailName" title="所属细分" sortable width="120" :resizable="true" show-overflow>
         <template #default="{ row }">
           {{ row.LineDetailName ? row.LineDetailName : '无' }}
         </template>
@@ -275,12 +275,12 @@
           </el-popover>
         </template>
       </vxe-column>
-      <vxe-column field="LineDay" sortable width="50" title="航程" :resizable="false">
+      <vxe-column field="LineDay" sortable width="100" title="航程" :resizable="false">
         <template #default="{ row }">
           {{ row.LineDay ? row.LineDay + "天" : "-" }}
         </template>
       </vxe-column>
-      <vxe-column field="CSTDate" title="截/开" sortable width="60" :resizable="false">
+      <vxe-column field="CSTDate" title="截/开" sortable width="100" :resizable="false">
         <template #default="{ row }"> {{ row.CSTDate }}/{{ row.ETDDate }} </template>
       </vxe-column>
       <vxe-colgroup title="ALL-IN报价">
@@ -371,7 +371,7 @@
           </template>
         </vxe-column>
       </vxe-colgroup>
-      <vxe-column title="了解幅度" width="70">
+      <vxe-column title="了解幅度" width="100">
         <template #default="{ row }">
           <!-- <div class="show-discount" v-if="!row.AllInPriceVisiable" @click="applyDiscount(row)">
             申请幅度
@@ -381,12 +381,12 @@
       </vxe-column>
       <!-- <vxe-column field="CompanyName" title="所属服务商" width="100"> </vxe-column> -->
 
-      <vxe-column field="StartTime" title="开始有效期" sortable width="90" :resizable="false">
+      <vxe-column field="StartTime" title="开始有效期" sortable width="160" :resizable="false">
         <template #default="{ row }">
           {{ row.StartTime ? row.StartTime.substring(0, 10) : "" }}
         </template>
       </vxe-column>
-      <vxe-column field="EndTime" title="结束有效期" sortable width="90" :resizable="false">
+      <vxe-column field="EndTime" title="结束有效期" sortable width="160" :resizable="false">
         <template #default="{ row }">
           {{ row.EndTime ? row.EndTime.substring(0, 10) : "" }}
         </template>
@@ -469,7 +469,7 @@
           </el-select>
 
         </el-form-item>
-        <el-form-item label-width="0" prop="BoxAmount" :rules="rules.BoxAmount">
+        <el-form-item label-width="0" prop="BoxAmount" :rules="rules.BoxAmount" style="flex: 1;">
           <el-input size="small" v-model="discountForm.BoxAmount" placeholder="输入箱量"></el-input>
         </el-form-item>
       </div>
@@ -481,7 +481,7 @@
     <template #footer>
       <div style="text-align: center;">
         <el-button @click="discountDialog = false">取消</el-button>
-        <el-button type="primary" @click="getPrice" class="contact-price-buttom">
+        <el-button type="primary" :loading="btnLoading" @click="getPrice" class="contact-price-buttom">
           获取底价
         </el-button>
       </div>
@@ -517,6 +517,7 @@ export default defineComponent({
   data() {
     return {
       visible: false,
+      btnLoading: false,
       result: 3,
       tableData: [],
       constTableData: [],
@@ -1109,43 +1110,35 @@ export default defineComponent({
 
     // 获取底价
     async getPrice() {
+
       const valid = await this.$refs.discountRef.validate()
       if (valid) {
-
-        const res = await this.$http.post("/api/CargoRate/CreateBusinessDocuments", this.discountForm)
-        if (!res.Status) {
-          this.$message.error(res.Message)
-          return
+        this.btnLoading = true
+        try {
+          const res = await this.$http.post("/api/CargoRate/CreateBusinessDocuments", this.discountForm)
+          if (!res.Status) {
+            this.$message.error(res.Message)
+            return
+          }
+          this.$message.success('成功')
+          this.discountDialog = false
+          this.getChatMenu(res.Data)
+          this.btnLoading = false
+        } catch (error) {
+          this.btnLoading = false
         }
-        this.$message.success('成功')
-        this.discountDialog = false
-        this.getChatMenu()
+
       }
     },
 
-    async getChatMenu() {
+    async getChatMenu(Id) {
 
       let arr = []
       const res = await this.$http.get('/api/CargoRate/GroupByBusinessDocuments')
-      let oldArr = []
-
-
-      if (this.$store.state.menu.newList.length) {
-        this.$store.state.menu.newList[this.$store.state.menu.newList.length - 1].info.forEach(item => {
-          oldArr.push(item.url)
-        })
-      }
       let path, name, BusinessDocumentsId = ''
-      console.log(oldArr)
-      res.Data[res.Data.length - 1].info.forEach(item => {
-        if (oldArr.indexOf("/internal/ChatWin" + item.Id) == -1) {
-          console.log("/internal/ChatWin" + item.Id)
-          path = "/internal/ChatWin" + item.Id
-          name = 'ChatWin' + item.Id
-          BusinessDocumentsId = item.Id
-        }
-      })
-      console.log(path)
+      path = "/internal/ChatWin" + Id
+      name = 'ChatWin' + Id
+      BusinessDocumentsId = Id
       this.$router.addRoute('internal', {
         name: name,
         path: path,
@@ -1478,8 +1471,23 @@ export default defineComponent({
 }
 
 .form-flex {
+  :deep(.el-form-item) {
+    flex: 1 !important;
+  }
+
   :deep(.el-select) {
     width: 100% !important;
   }
+}
+
+:deep(.vxe-header--column) {
+  .vxe-cell {
+    height: 22px !important;
+    line-height: 22px !important;
+  }
+}
+
+:deep(.vxe-table--body-wrapper) {
+  min-height: calc(100vh - 450px);
 }
 </style>

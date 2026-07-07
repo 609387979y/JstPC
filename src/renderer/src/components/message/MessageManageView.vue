@@ -8,22 +8,15 @@
         <el-button @click="deleteMessage(null)">删除</el-button>
       </template>
       <template #toolbarRight>
-        <el-input
-          prefix-icon="el-icon-search"
-          v-model="search.title"
-          @change="searchChange"
-          placeholder="消息标题"
-        ></el-input>
+        <el-input v-model="search.title" @change="searchChange" placeholder="消息标题"></el-input>
       </template>
       <template #table>
         <JstPageTable @change="getList" :data="data" :option="tableOption">
           <el-table-column type="selection"></el-table-column>
           <el-table-column prop="Title" label="标题">
             <template #default="scope">
-              <el-link
-                @click.prevent="choose(scope.row)"
-                :type="scope.row.IsRead == true ? 'info' : 'primary'"
-              >{{ scope.row.Title }}</el-link>
+              <el-link @click.prevent="choose(scope.row)" :type="scope.row.IsRead == true ? 'info' : 'primary'">{{
+                scope.row.Title }}</el-link>
             </template>
           </el-table-column>
           <el-table-column prop="GroupName" label="消息类型"></el-table-column>
@@ -114,6 +107,10 @@ export default defineComponent({
       if (res.Status) {
         this.$message.success("设置成功");
         this.getList();
+        let res = await this.$http.get("/api/Message/UnReadMessageCount", {
+          onlyUser: this.onlyUser,
+        });
+        this.$store.commit("menu/setUnReadCount", res)
       }
     },
     /**
@@ -122,7 +119,11 @@ export default defineComponent({
     async choose(msg) {
       this.$http.post("/api/Message/SetReadStatus", {
         msgId: msg.Id
-      }).then(() => {
+      }).then(async () => {
+        let res = await this.$http.get("/api/Message/UnReadMessageCount", {
+          onlyUser: this.onlyUser,
+        });
+        this.$store.commit("menu/setUnReadCount", res)
         msg.IsRead = true;
         return this.$store.dispatch("message/getMessageCount");
       });
@@ -152,5 +153,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang='scss' scoped>
-</style>
+<style lang='scss' scoped></style>

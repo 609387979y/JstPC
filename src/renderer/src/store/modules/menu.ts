@@ -18,7 +18,8 @@ export interface UpdateState {
   // 进度条
   menuList: Array<MenuState>
   newList: Array<newListState>,
-  replyList: Array<newListState>
+  replyList: Array<newListState>,
+  unReadCount: Number
 }
 
 const module: Module<UpdateState, RootState> = {
@@ -47,11 +48,11 @@ const module: Module<UpdateState, RootState> = {
       {
         name: "企业商机",
         url: "/internal/business",
-        icon: "menu5.svg",
-        iconActive: "menu5Active.svg"
+        icon: "menu9.svg",
+        iconActive: "menu9Active.svg"
       },
       {
-        name: "业务单据",
+        name: "询价记录",
         url: "/internal/BusinessDocument",
         icon: "menu5.svg",
         iconActive: "menu5Active.svg"
@@ -60,7 +61,8 @@ const module: Module<UpdateState, RootState> = {
     newList: [
 
     ],
-    replyList: []
+    replyList: [],
+    unReadCount: 0
   },
 
   mutations: {
@@ -74,6 +76,9 @@ const module: Module<UpdateState, RootState> = {
     setReplyList(state, menu: Array<newListState>) {
       state.replyList = menu
     },
+    setUnReadCount(state, count:Number){
+      state.unReadCount = count
+    }
   },
   actions: {
 

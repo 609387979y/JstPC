@@ -11,15 +11,9 @@
       <div class="message-box">
         <el-scrollbar max-height="400px">
           <template v-if="messages.length != 0">
-            <MessageInfo
-              v-for="item in messages"
-              :key="item.Id"
-              :title="item.msgTitle"
-              :description="item.msgDescription"
-              :time="item.time"
-              :isRead="item.IsRead"
-              @click="choose(item)"
-            ></MessageInfo>
+            <MessageInfo v-for="item in messages" :key="item.Id" :title="item.msgTitle"
+              :description="item.msgDescription" :time="item.time" :isRead="item.IsRead" @click="choose(item)">
+            </MessageInfo>
           </template>
           <template v-else>
             <el-empty description="暂无消息"></el-empty>
@@ -29,11 +23,7 @@
         <div class="btns">
           <el-row>
             <el-col :span="12">
-              <div
-                @click="setAllReadStatus"
-                class="opt-btn"
-                style="border-right:1px solid #f0f0f0"
-              >全部已读</div>
+              <div @click="setAllReadStatus" class="opt-btn" style="border-right:1px solid #f0f0f0">全部已读</div>
             </el-col>
             <el-col :span="12">
               <div @click="toMoreMessages" class="opt-btn">查看更多</div>
@@ -115,15 +105,23 @@ UserId: 3
       if (res.Status) {
         this.$message.success("设置成功");
         this.reload();
+        let res = await this.$http.get("/api/Message/UnReadMessageCount", {
+          onlyUser: this.onlyUser,
+        });
+        this.$store.commit("menu/setUnReadCount", res)
       }
     },
     /**
      * 选中其中一条
      */
     async choose(msg) {
-      this.$http.post("/api/Message/SetReadStatus", {
+      await this.$http.post("/api/Message/SetReadStatus", {
         msgId: msg.Id
       })
+      let res = await this.$http.get("/api/Message/UnReadMessageCount", {
+        onlyUser: this.onlyUser,
+      });
+      this.$store.commit("menu/setUnReadCount", res)
       msg.IsRead = true;
       // 跳转到详情页
       if (this.onlyUser) {
@@ -188,10 +186,12 @@ UserId: 3
     height: 47px;
     line-height: 47px;
     cursor: pointer;
+
     &:hover {
       color: #409eff;
     }
   }
+
   .split {
     border-left: 1px solid #f0f0f0;
   }

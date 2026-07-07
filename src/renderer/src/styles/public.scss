@@ -1,3 +1,5 @@
+$--el-font-size-large: 16px;
+
 body {
   margin: 0;
 }
@@ -147,6 +149,46 @@ body {
 
 }
 
-:deep(.el-range-separator){
-  line-height: 16px;
+.el-range-separator {
+  line-height: 16px !important;
+}
+
+:deep(.vxe-header--column) {
+  .vxe-cell {
+    height: 22px !important;
+    line-height: 22px !important;
+  }
+}
+
+.el-dialog__body {
+  padding-top: 0 !important;
+}
+
+
+/* 1. 设置整个滚动条的宽度（垂直）或高度（水平） */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 10px;
+}
+
+/* 2. 设置滚动条轨道（背景部分） */
+::-webkit-scrollbar-track {
+  background: #F7f8fa;
+  border-radius: 8px;
+}
+
+/* 3. 设置可拖动的滑块部分 */
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 8px;
+}
+
+/* 4. 设置鼠标悬停在滑块上时的样式 */
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.el-dialog__title {
+  font-size: 16px !important;
+  font-weight: 600;
 }

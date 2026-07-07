@@ -149,10 +149,10 @@
             </el-row>
             <CustomerInfoDialog ref="customerInfoDialogRef" @getInfo="getCompanyInfo"></CustomerInfoDialog>
         </JstCardLayout>
-        <JstCardLayout border>
+        <JstCardLayout border class="box-two">
             <template #title>服务商成员</template>
             <div style="height: 10px;"></div>
-            <el-row :gutter="10">
+            <el-row :gutter="10" style="padding-left: 0 !important;">
                 <el-col :span="5">
                     <JstTitleBox>
                         <template #title>组织结构</template>
@@ -181,40 +181,9 @@
                     </JstTitleBox>
                 </el-col>
                 <el-col :span="19">
-                    <AppSearchFormMini @reset="reset" @submit="getList" label-width="80px">
-                        <el-row class="search-form-row">
-                            <el-col :span="6">
-                                <el-form-item label="账号名称">
-                                    <el-input v-model="state.search.RealName" placeholder="用户名称"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="6">
-                                <el-form-item label="联系号码">
-                                    <el-input v-model="state.search.MobilePhone" placeholder="联系号码"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="6">
-                                <el-form-item label="所属角色">
-                                    <el-select v-model="state.search.RoleId">
-                                        <el-option label="全部" value></el-option>
-                                        <el-option v-for="item in state.roleList" :key="item.Id" :label="item.RoleName"
-                                            :value="item.Id"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                            <el-form-item label="入驻时间">
-                                <JstDateRange v-model:start="state.search.CreateTimeStart"
-                                    v-model:end="state.search.CreateTimeEnd">
-                                </JstDateRange>
-                            </el-form-item>
-                            <el-col :span="6">
-                                <div class="Search-Btn">
-                                    <el-button type="primary" @click="getList">查询</el-button>
-                                    <el-button type="text" @click="reset">清空</el-button>
-                                </div>
-                            </el-col>
-                        </el-row>
-                    </AppSearchFormMini>
+                    <searchComp @searchFun="searchFun" :form="state.search" @clearFun="clearFun"
+                        :searchList="searchList" style="margin-bottom: 12px;">
+                    </searchComp>
                     <div v-if="isAdmin" class="btn-group">
                         <el-button @click="inviteEmployee" type="primary">邀请同事</el-button>
                         <el-button @click="deleteEmployees(null)" :icon="Delete">删除同事</el-button>
@@ -272,6 +241,7 @@ import AppSearchFormMini from "@/components/AppSearchFormMini.vue";
 import CustomerInfoDialog from "./components/CustomerInfoDialog.vue";
 import EmployeeEdit from "@/components/system/EmployeeEdit.vue";
 import { useWallet } from "@/composables/pay/useWallet"
+import searchComp from '@/components/searchComp.vue';
 
 const store = useStore();
 const wallet = useWallet()
@@ -304,6 +274,55 @@ const rechargeLogRef = ref()
 const toEditCompanyInfo = () => {
     customerInfoDialogRef.value.open(state.info.Id)
 }
+
+const searchFun = (form) => {
+    if (form.date && form.date.length) {
+        form.CreateTimeStart = form.date[0]
+        form.CreateTimeEnd = form.date[1]
+    }
+
+    state.search = form
+    getList()
+}
+const clearFun = (form) => {
+    state.search = {}
+    getList()
+}
+const searchList = computed(() => {
+    return [
+        {
+            type: 'input',
+            label: '账号名称',
+            prop: 'RealName',
+            placeholder: '账号名称'
+        },
+        {
+            type: 'input',
+            label: '联系号码',
+            prop: 'MobilePhone',
+            placeholder: '联系号码'
+        },
+        {
+            label: '所属角色',
+            type: 'select',
+            placeholder: "请选择所属角色",
+            prop: 'RoleId',
+            dataLabel: 'RoleName',
+            value: 'Id',
+            data: [
+                { RoleName: '全部' },
+                ...state.roleList
+            ]
+        },
+        {
+            label: '入驻时间',
+            type: 'daterange',
+            prop: 'date',
+            width: 'calc(50% - 8px)',
+            btn: true
+        },
+    ]
+})
 // 公司基本信息
 const getCompanyInfo = async () => {
     const res = await request.get("/api/Company/GetCompanyInfo", {
@@ -652,8 +671,10 @@ onMounted(() => {
 }
 
 .header-title {
+    font-weight: 600;
     display: flex;
     align-items: center;
+    padding-left: 12px;
 
     .header-status {
         font-size: 12px;
@@ -748,5 +769,45 @@ onMounted(() => {
 
 :deep(.el-form-item) {
     margin-bottom: 6px;
+}
+
+.detail-header-container {
+    padding: 25px 0 0 !important;
+}
+
+:deep(.el-card) {
+    border: none !important;
+}
+
+:deep(.el-card__body) {
+    padding: 0;
+}
+
+:deep(.el-card__header) {
+    padding-left: 0;
+}
+
+:deep(.card-title) {
+    font-size: 14px !important;
+    font-weight: normal !important;
+}
+
+:deep(.el-row) {
+    padding: 12px !important;
+    margin-top: 0 !important;
+}
+
+:deep(.form) {
+    padding: 0;
+}
+
+.box-two {
+    padding-top: 0 !important;
+
+    :deep(.card-content) {
+        .el-row {
+            padding-top: 5px !important;
+        }
+    }
 }
 </style>

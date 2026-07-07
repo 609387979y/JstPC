@@ -4,8 +4,10 @@
 
     <!-- 类型 -->
     <div class="type">
-      <div class="type-item" :class="{ active: type === 1 }" @click="type = 1">运价查询</div>
-      <div class="type-item" :class="{ active: type === 2 }" @click="type = 2">即时询价</div>
+      <div class="type-item" :class="{ active: type === 1 }" @click="type = 1"><img src="@/assets/newIcon.svg" />运价查询
+      </div>
+      <div class="type-item" :class="{ active: type === 2 }" @click="type = 2"><img src="@/assets/newIcon2.svg" />即时询价
+      </div>
       <!-- <div class="type-item" :class="{ active: type === 3 }" @click="type = 3">船期查询</div> -->
     </div>
 
@@ -79,6 +81,7 @@ const type = ref(1);
   height: 100%;
   flex-direction: column;
   justify-content: center;
+  background-color: #fff;
 
   .title {
     font-size: 20px;
@@ -101,8 +104,15 @@ const type = ref(1);
       line-height: 32px;
       font-size: 14px;
       text-align: center;
+      display: flex;
+      align-items: center;
       border-radius: 4px;
       cursor: pointer;
+      padding-left: 12px;
+
+      img {
+        margin-right: 5px;
+      }
 
       &.active {
         background: rgba(253, 149, 62, 0.15);

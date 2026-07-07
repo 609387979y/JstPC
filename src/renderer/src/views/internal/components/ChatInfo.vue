@@ -11,19 +11,22 @@
                     <div class="name-class">{{ value.RealName }}<span v-if="value.MobilePhone">（{{ value.MobilePhone
                             }}）</span></div>
                     <div class="text-box">
-                        <div style="white-space: pre-wrap;"
-                            v-html="value?.ChatContent">
+                        <div style="white-space: pre-wrap;" v-html="value?.ChatContent">
                         </div>
                     </div>
                 </div>
             </template>
             <template v-else>
+                <div class="join-class" v-if="joinArr.indexOf(value?.RealName) == -1 || joinArr[i] == value.RealName">
+                    <el-tag type="info">业务员{{ value?.RealName }}进入</el-tag>{{
+                        joinArrFun(value.RealName, i)
+                    }}
+                </div>
                 <div class="info-text">
                     <div class="name-class">{{ value.RealName }}<span v-if="value.MobilePhone">（{{ value.MobilePhone
                             }}）</span></div>
                     <div class="text-box">
-                        <div style="white-space: pre-wrap;"
-                            v-html="value?.ChatContent">
+                        <div style="white-space: pre-wrap;" v-html="value?.ChatContent">
                         </div>
                     </div>
                 </div>
@@ -39,7 +42,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useStore } from "vuex";
 
 const store = useStore();
@@ -58,6 +61,35 @@ const userInfo = computed(() => {
         return {};
     }
 });
+
+const scrollLast = () => {
+    if (!document.querySelector('.info-box')) return
+    console.log(document.querySelector('.info-box').scrollHeight)
+    document.querySelector('.info-box').scrollTo({
+        top: document.querySelector('.info-box').scrollHeight, // 容器内部内容的总高度
+        behavior: 'smooth'
+    });
+}
+
+const joinArr = ref([])
+const joinArrFun = (val, i) => {
+    if (joinArr.value.indexOf(val) != -1) return
+    joinArr.value[i] = val
+    return 12333
+}
+
+defineExpose({
+    scrollLast
+})
+
+watch(
+    () => props.info,
+    scrollLast()
+)
+
+onMounted(() => {
+    scrollLast()
+})
 </script>
 
 <style lang="scss" scoped>
@@ -67,6 +99,7 @@ const userInfo = computed(() => {
     .info-item {
         display: flex;
         margin-top: 8px;
+        flex-wrap: wrap;
 
         &:first-child {
             margin-top: 0;
@@ -111,11 +144,29 @@ const userInfo = computed(() => {
         background-color: #F7F7F7;
         max-width: 247px;
         border-radius: 4px;
-        padding: 4px 12px;
+        padding: 12px;
         margin-top: 10px;
         font-size: 14px;
         line-height: 22px;
         color: rgba(0, 0, 0, 0.85);
     }
+}
+
+.join-class {
+    width: 100%;
+    text-align: center;
+    margin: 5px 0;
+
+    :deep(.el-tag--info){
+        border: none !important;
+    }
+
+    span {
+        display: inline-block;
+    }
+}
+
+.view-content{
+    max-width: none !important;
 }
 </style>

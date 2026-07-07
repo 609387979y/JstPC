@@ -1,10 +1,10 @@
 <template>
     <div class="main-body">
-        <div class="title">业务单据</div>
-        <searchComp @searchFun="searchFun" :searchList="searchList"></searchComp>
-        <AppVxeTable :rowId="'Id'" ref="businessRef" :tableHeaderKey="'businessTable'" :toolbarConfig="true"
-            class="vex-table-primary freight-table" :tableData="tableData" :tableOption="tableOption"
-            @getTableList="getList()" :tableHeight="'1000'" :columnList="columnList">
+        <div class="title">询价记录</div>
+        <searchComp @searchFun="searchFun" :form="search" @clearFun="clearFun" :searchList="searchList"></searchComp>
+        <AppVxeTable :rowId="'Id'" ref="businessRef" :tableHeaderKey="'businessTable'" :key="tableData"
+            :toolbarConfig="true" class="vex-table-primary freight-table" :tableData="tableData"
+            :tableOption="tableOption" @getTableList="getList()" :tableHeight="'1000'" :columnList="columnList">
             <vxe-column type="expand" title="更多" width="50">
                 <template #default="{ row }">
                     <span class="toggle-btn" @click="toggleExpand(row)">
@@ -22,6 +22,10 @@
                     </div>
                 </template>
             </vxe-column>
+
+            <template #cz="{ row }" v-if="!nobtn">
+                <div class="text-btn" @click="goChat(row)">查看聊天</div>
+            </template>
 
             <template #Type="{ row }">
                 <div>
@@ -45,6 +49,8 @@ import request from "@/public/request";
 import AppVxeTable from "@/components/AppVxeTable.vue";
 import sonTable from './components/sonTable.vue';
 import { ArrowRight } from "@element-plus/icons";
+import { useRouter } from "vue-router";
+const router = useRouter()
 
 const searchList = reactive([
     {
@@ -107,9 +113,22 @@ const searchFun = (form) => {
     getList()
 }
 
+const clearFun = (form) => {
+    search.value = {}
+    getList()
+}
+
+
 // 列表
 const tableData = ref([])
 const columnList = reactive([
+    {
+        title: '操作',
+        field: 'cz',
+        type: 'slot',
+        slotName: 'cz',
+        width: 120
+    },
     {
         title: '业务类型',
         field: 'Type',
@@ -164,13 +183,6 @@ const tableOption = reactive({
 
 const sonColumnList = reactive([
     {
-        title: '操作',
-        field: 'cz',
-        type: 'slot',
-        slotName: 'cz',
-        width: 120
-    },
-    {
         title: '供应商',
         field: 'CompanyName',
         width: 120
@@ -217,6 +229,11 @@ const getList = async () => {
     }
 }
 
+const goChat = (row) => {
+    const path = '/internal/ChatWin' + row.Id
+    router.push({ path: path, query: { BusinessDocumentsId: row.Id, Type: '1' } })
+}
+
 const businessRef = ref(null)
 const toggleExpand = async (row) => {
     row.expand = row.expand || false
@@ -229,7 +246,7 @@ const toggleExpand = async (row) => {
     });
     row.loading = false;
     row.sonTable = res.Data
-    console.log(res)
+    console.log(row.sonTable)
 }
 
 onMounted(async () => {

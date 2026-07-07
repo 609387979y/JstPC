@@ -21,14 +21,16 @@
       <template #buttons> </template>
     </vxe-toolbar> -->
     <vxe-table v-show="tableVisible" auto-resize border show-overflow id="tableId" ref="xTable" align="center"
-      :row-id="rowId" :max-height="tableHeight" :min-height="tableHeightMin" :column-config="columnConfig" :custom-config="{ storage: true }"
-      :row-config="rowConfig" :data="tableData" :empty-text="emptyText" class="vxe-list-table"
-      @cell-dblclick="cellDBLClickEvent" @cell-click="cellClickEvent" @checkbox-change="checkboxChangeEvent"
-      @checkbox-all="checkboxChangeEvent" :checkbox-config="{ highlight: true }" round>
+      :row-id="rowId" :max-height="tableHeight" :min-height="tableHeightMin" :resizable-config="resizableConfig"
+      :column-config="columnConfig" :custom-config="{ storage: true }" :row-config="rowConfig" :data="tableData"
+      :empty-text="emptyText" class="vxe-list-table" @cell-dblclick="cellDBLClickEvent" @cell-click="cellClickEvent"
+      @checkbox-change="checkboxChangeEvent" @checkbox-all="checkboxChangeEvent" :checkbox-config="{ highlight: false }"
+      round>
       <slot></slot>
       <template v-if="columnList.length">
-        <vxe-column :width="value.width || ''" v-for="value in columnList" :field="value.field" :title="value.title"
-          sortable width="90" :resizable="value.resizable || false">
+        <vxe-column :width="value.width || ''" :min-width="value.minWidth || ''" v-for="value in columnList"
+          :field="value.field" :title="value.title" sortable width="90"
+          :resizable="true">
           <template v-if="value.type && value.type == 'slot'" #default="scope">
             <slot :name="value.slotName" :row="scope.row"></slot>
           </template>
@@ -151,13 +153,18 @@ export default defineComponent({
     //列配置
     columnConfig: {
       type: Object,
-      default: { resizable: true },
+      default: () => { return { resizable: true } },
+    },
+
+    resizableConfig: {
+      type: Object,
+      default: () => { return { isAllColumnDrag: true } },
     },
 
     //行配置
     rowConfig: {
       type: Object,
-      default: { isHover: true },
+      default: { isHover: true, isCurrent: true },
     },
 
     //翻页配置
@@ -452,16 +459,25 @@ export default defineComponent({
 
             //不能移动固定列
             if (newColumn.fixed || oldColumn.fixed) {
-              // 错误的移动
-              const oldThElem = wrapperElem.children[oldIndex] as HTMLElement;
-              if (newIndex > oldIndex) {
-                wrapperElem.insertBefore(targetThElem, oldThElem);
-              } else {
-                wrapperElem.insertBefore(
-                  targetThElem,
-                  oldThElem ? oldThElem.nextElementSibling : oldThElem,
-                );
+              try {
+                // 错误的移动
+                console.log(wrapperElem)
+                if (wrapperElem) {
+                  const oldThElem = wrapperElem.children[oldIndex] as HTMLElement;
+                  if (newIndex > oldIndex) {
+                    wrapperElem.insertBefore(targetThElem, oldThElem);
+                  } else {
+                    wrapperElem.insertBefore(
+                      targetThElem,
+                      oldThElem ? oldThElem.nextElementSibling : oldThElem,
+                    );
+                  }
+                }
+
+              } catch (error) {
+                console.log(error)
               }
+
               ElMessage.warning("固定列不允许拖动");
               return;
             }
@@ -556,6 +572,13 @@ export default defineComponent({
     line-height: 30px;
     display: flex;
     align-items: center;
+  }
+}
+
+.vxe-header--column {
+  .vxe-cell {
+    height: 22px !important;
+    line-height: 22px !important;
   }
 }
 

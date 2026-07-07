@@ -1,131 +1,38 @@
 <template>
   <template v-if="currentUserIsLogin">
+
     <div>
       <span :class="isWhiteText ? '' : 'text-black'" class="user-name">
         <!-- <span :class="typeFrom == 'mainpage' ? 'login-text-mainPage' : ''">{{
           currentUserName
         }}</span> -->
-        <img v-if="hasCompany" src="@/assets/images/sign-yes.svg" alt="" style="height: 21px;" />
-        <img v-else src="@/assets/images/sign-no.svg" alt="" style="height: 21px;" />
+
 
       </span>
     </div>
     <div class="vip-pay">
-      <!-- <el-popover placement="bottom" :width="240" trigger="click">
-        <template #reference>
-          <div class="fixed-item">
-            <div class="fixed-item-title">
-              <img v-if="!isVipAndFree" src="@/assets/newImages/renewVip/unVip.png" alt="" />
-              <img v-else src="@/assets/newImages/renewVip/Vip.png" alt="" />
-            </div>
-          </div>
-        </template>
-<div class="bottom-qrcode">
-  <div class="qrcode-box">
-    <div class="qrcode-img"><el-icon color="#fd953e" size="16">
-        <CircleCheck />
-      </el-icon></div>
-    <div class="qrcode-text">搜运价</div>
-  </div>
-  <div class="qrcode-box">
-    <div class="qrcode-img"><el-icon color="#fd953e" size="16">
-        <CircleCheck />
-      </el-icon></div>
-    <div class="qrcode-text">找舱位</div>
-  </div>
-  <div class="qrcode-box">
-    <div class="qrcode-img"><el-icon color="#fd953e" size="16">
-        <CircleCheck />
-      </el-icon></div>
-    <div class="qrcode-text">查船期</div>
-  </div>
-  <div class="qrcode-box">
-    <div class="qrcode-img"><el-icon color="#fd953e" size="16">
-        <CircleCheck />
-      </el-icon></div>
-    <div class="qrcode-text">卖舱位</div>
-  </div>
-  <div class="qrcode-box">
-    <div class="qrcode-img"><el-icon color="#fd953e" size="16">
-        <CircleCheck />
-      </el-icon></div>
-    <div class="qrcode-text">箱跟踪</div>
-  </div>
-  <div class="qrcode-box" style="width: 63px;">
-  </div>
-</div>
-<div class="openVipBtn" @click="openVip()">{{ isVipAndFree ? '续费会员' : '充值会员' }}</div>
-</el-popover> -->
     </div>
 
     <MessageIcon style="margin-right: -5px" :isWhite="isWhiteText ? true : false" :typeFrom="typeFrom"></MessageIcon>
-    <el-dropdown style="margin-right: 5px">
-      <div class="login-icon">
-        <div class="dot-item" style="margin-left: 10px">
-          <el-badge is-dot :hidden="unReadMessageCount == 0 || unReadMessageCount == null" :value="unReadMessageCount"
-            :max="99" class="item">
-            <div class="avatar-out">
-              <el-avatar :size="32" :src="currentAvatar" style="margin-top: 4px">
-                <img src="@/assets/default-avatar.svg" />
-              </el-avatar>
-            </div>
-          </el-badge>
-        </div>
-      </div>
-      <template #dropdown>
-        <el-dropdown-menu style="width: 180px">
-          <el-dropdown-item class="user-dropdown-item" @click="toMain">
-            <el-avatar :size="32" :src="currentAvatar">
-              <img src="@/assets/default-avatar.svg" />
-            </el-avatar>
-            <span class="name">{{ currentUserName }}</span>
-          </el-dropdown-item>
-          <el-dropdown-item @click="toWorkbench(menuType == 2 ? 1 : 2)" divided>
-            {{ menuType == 2 ? "普通客户" : "企业客户" }}
-          </el-dropdown-item>
-          <!-- <el-dropdown-item @click="toWorkbench" divided>
-            {{ $store.state.menu.isExternalWorkbench ? "工作台" : "管理后台" }}
-          </el-dropdown-item> -->
-          <!-- <el-dropdown-item @click="goWorkbench('/workbench/applications')" divided>
-            企业客户
-          </el-dropdown-item> -->
-          <el-dropdown-item @click="toWorkbench(3)" divided>
-            个人中心
-          </el-dropdown-item>
-          <!-- <el-dropdown-item
-            v-if="$store.state.auth.isMoreRole"
-            @click="toLogin"
-            class="user-dropdown-item"
-          >
-            切换角色
-          </el-dropdown-item>
 
-          <el-dropdown-item
-            class="user-dropdown-item"
-            v-if="$store.state.auth.multipleAccount"
-            @click="toChooseCompany"
-          >
-            切换公司</el-dropdown-item> -->
-          <el-dropdown-item class="user-dropdown-item" @click="logout" divided>
-            退出登录</el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
   </template>
-  <template v-else>
-    <div class="not-login">
-      <span @click="toLogin" :class="isWhiteText ? '' : 'isWhiteText'">注册/登录</span>
-      <img style="width: 24px" class="logo-img" src="@/assets/customerImg/00头像.svg" v-show="isWhiteText" alt="" />
-      <img style="width: 24px" class="logo-img" src="@/assets/customerImg/01头像.svg" v-show="!isWhiteText" alt="" />
-      <div class="lang-change" :class="isWhiteText ? '' : 'isWhiteText'">CN</div>
+  <div class="window-btns">
+    <div @click="windowOpt('min')" class="btns">
+      <el-icon :size="18" style="color: #000;">
+        <minus />
+      </el-icon>
     </div>
-    <!-- <button class="login" :class="isNewMh?'blue-bg':''" @click="toLogin">登录</button> -->
-  </template>
-  <span :class="isWhiteText ? '' : 'text-black'" class="user-name">
-    <span :class="typeFrom == 'mainpage' ? 'login-text-mainPage' : ''">{{
-      currentUserName
-    }}</span>
-  </span>
+    <div @click="windowOpt('max')" style="padding-bottom: 9px" class="btns">
+      <el-icon :size="18">
+        <FullScreen />
+      </el-icon>
+    </div>
+    <div @click="windowOpt('close')" class="btns">
+      <el-icon :size="18" style="color: #000;">
+        <Close />
+      </el-icon>
+    </div>
+  </div>
   <!-- <UserLoginDialog @success="loginSuccess" ref="userDialog"></UserLoginDialog> -->
 </template>
 
@@ -133,7 +40,8 @@
 import { defineComponent } from "vue";
 // import UserLoginDialog from "@/components/UserLoginDialog.vue";
 import MessageIcon from "@/components/message/MessageIconCustomer.vue";
-import { ArrowDown, CircleCheck } from "@element-plus/icons";
+import { ArrowDown, CircleCheck, Minus, Close, FullScreen } from "@element-plus/icons";
+import { } from "@element-plus/icons";
 export default defineComponent({
   props: {
     isWhiteText: {
@@ -153,6 +61,9 @@ export default defineComponent({
     ArrowDown,
     MessageIcon,
     CircleCheck,
+    Minus,
+    Close,
+    FullScreen
   },
   data() {
     return {
@@ -160,6 +71,9 @@ export default defineComponent({
     };
   },
   methods: {
+    windowOpt(opt) {
+      this.$agent().ipcRequest("window/opt", opt);
+    },
     async loginSuccess() {
       this.$message.success("登录成功");
       // 判断有没有账号 没有就前往申请账号的页面(方舟只显示联系方式不提供申请)
@@ -199,6 +113,10 @@ export default defineComponent({
         return;
       }
       this.$emit('toWorkbench', menuType)
+    },
+
+    openExternalUrl(url) {
+      this.$agent().ipcRequest("window/externalUrl", url);
     },
 
     /**
@@ -583,6 +501,24 @@ export default defineComponent({
     position: absolute;
     top: 2px !important;
     right: 5px;
+  }
+}
+
+.window-btns {
+  display: flex;
+
+  // position: relative;
+  .btns {
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+    margin-left: 10px;
+    padding: 5px;
+    color: #000;
+
+    // &:hover {
+    //   background: rgba($color: #000000, $alpha: 0.15);
+    // }
   }
 }
 </style>

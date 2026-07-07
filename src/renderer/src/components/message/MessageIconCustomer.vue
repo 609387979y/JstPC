@@ -5,7 +5,7 @@
         <div class="bell-icon-out" :class="messegeShow ? 'active' : ''" @click="messegeShow = !messegeShow">
           <el-icon :size="18" :class="isWhite ? 'isWhite' : 'isBlack'">
             <el-badge :value="unReadCount" :hidden="unReadCount == 0" :max="99" type="danger">
-              <bell />
+              <bell style="color: #000;" />
             </el-badge>
           </el-icon>
         </div>
@@ -115,6 +115,10 @@ UserId: 3
       if (res.Status) {
         this.$message.success("设置成功");
         this.reload();
+        let res = await this.$http.get("/api/Message/UnReadMessageCount", {
+          onlyUser: this.onlyUser,
+        });
+        this.$store.commit("menu/setUnReadCount", res)
       }
     },
     /**
@@ -123,7 +127,11 @@ UserId: 3
     async choose(msg) {
       this.$http.post("/api/Message/SetReadStatus", {
         msgId: msg.Id
-      }).then(() => {
+      }).then(async () => {
+        let res = await this.$http.get("/api/Message/UnReadMessageCount", {
+          onlyUser: this.onlyUser,
+        });
+        this.$store.commit("menu/setUnReadCount", res)
         msg.IsRead = true;
         return this.$store.dispatch("message/getMessageCount");
       });

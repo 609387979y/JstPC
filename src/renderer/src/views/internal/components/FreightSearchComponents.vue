@@ -714,7 +714,7 @@ export default defineComponent({
         }
 
         :deep(.el-icon) {
-          display: none;
+          // display: none;
         }
       }
 

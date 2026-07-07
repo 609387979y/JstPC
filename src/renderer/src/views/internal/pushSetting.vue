@@ -36,60 +36,44 @@
         <!-- 推送设置部分 -->
         <div class="push-settings-section">
             <h3 class="section-title">推送设置</h3>
-            <AppSearchFormMini @reset="resetSearch" @submit="getList" label-width="80px">
-                <el-row :gutter="10">
-                    <el-col :span="6">
-                        <el-form-item label="询价公司">
-                            <el-input placeholder="询价公司" v-model="searchForm.InquiryCompany"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="推送人员">
-                            <el-input placeholder="推送人员" v-model="searchForm.EmployeeName"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-button type="primary" @click="getList" size="mini">搜索</el-button>
-                        <el-button type="text" @click="resetSearch">清空</el-button>
-                    </el-col>
-                </el-row>
-            </AppSearchFormMini>
+            <searchComp @searchFun="searchFun" :form="searchForm" @clearFun="clearFun" :searchList="searchList"
+                style="margin-bottom: 12px;"></searchComp>
 
-            <AppPageTable style="margin-top: 10px;" @change="getList" :data="tableData" :option="tableOption"
+            <AppVxeTable style="margin-top: 10px;" @change="getList" :tableData="tableData" :tableOption="tableOption"
                 :height="tableHeight" :singleHighLight="true">
-                <el-table-column width="100" label="操作">
+                <vxe-column width="100" label="操作">
                     <template #default="scope">
                         <el-button type="text" class="operation-btn" @click="setPushPersonnel(scope.row)">
-                            设置推送人员
+                            设置客服人员
                         </el-button>
                     </template>
-                </el-table-column>
-                <el-table-column min-width="150" show-overflow-tooltip sortable prop="InquiryCompany" label="询价公司">
+                </vxe-column>
+                <vxe-column min-width="150" show-overflow-tooltip sortable field="InquiryCompany" title="询价公司">
                     <template #default="{ row }">
                         <div>{{ row.InquiryCompanyName || '--' }}</div>
                     </template>
-                </el-table-column>
-                <el-table-column min-width="120" show-overflow-tooltip sortable prop="PushPersonnel" label="推送人员">
+                </vxe-column>
+                <vxe-column min-width="120" show-overflow-tooltip sortable field="PushPersonnel" title="客服人员">
                     <template #default="{ row }">
-                        <div>{{ row.Employee[0].RealName }}</div>
+                        <div>{{ row.Employee[0] ? row.Employee[0].RealName : '' }}</div>
                     </template>
-                </el-table-column>
-                <el-table-column min-width="130" show-overflow-tooltip sortable prop="MobilePhone" label="手机号">
+                </vxe-column>
+                <vxe-column min-width="130" show-overflow-tooltip sortable field="MobilePhone" title="手机号">
                     <template #default="{ row }">
-                        <div>{{ row.Employee[0].MobilePhone }}</div>
+                        <div>{{ row.Employee[0] ? row.Employee[0].MobilePhone : '' }}</div>
                     </template>
-                </el-table-column>
-                <el-table-column min-width="180" show-overflow-tooltip sortable prop="ContactEmail" label="联系邮箱">
+                </vxe-column>
+                <vxe-column min-width="180" show-overflow-tooltip sortable field="ContactEmail" title="联系邮箱">
                     <template #default="{ row }">
-                        <div>{{ row.Employee[0].Email }}</div>
+                        <div>{{ row.Employee[0] ? row.Employee[0].Email : '' }}</div>
                     </template>
-                </el-table-column>
-                <el-table-column min-width="200" show-overflow-tooltip sortable prop="DepartmentName" label="部门名称">
+                </vxe-column>
+                <vxe-column min-width="200" show-overflow-tooltip sortable field="DepartmentName" title="部门名称">
                     <template #default="{ row }">
-                        <div>{{ row.Employee[0].OrgName }}</div>
+                        <div>{{ row.Employee[0] ? row.Employee[0].OrgName : '' }}</div>
                     </template>
-                </el-table-column>
-            </AppPageTable>
+                </vxe-column>
+            </AppVxeTable>
         </div>
     </div>
 
@@ -148,7 +132,40 @@ import AppSearchFormMini from '@/components/AppSearchFormMini.vue'
 import AppPageTable from '@/components/AppPageTable/AppPageTable.vue'
 import { useTableOption } from 'justom-share'
 import request from '@/public/request'
+import AppVxeTable from "@/components/AppVxeTable.vue";
 import { useStore } from "vuex";
+import searchComp from '@/components/searchComp.vue';
+
+const searchFun = (form) => {
+
+    searchForm.InquiryCompany = form.InquiryCompany
+    searchForm.EmployeeName = form.EmployeeName
+    getList()
+}
+
+const clearFun = () => {
+    searchForm.InquiryCompany = ''
+    searchForm.EmployeeName = ''
+    getList()
+}
+
+const searchList = computed(() => {
+    return [
+        {
+            type: 'input',
+            label: '询价公司',
+            prop: 'InquiryCompany',
+            placeholder: '询价公司'
+        },
+        {
+            type: 'input',
+            label: '推送人员',
+            prop: 'EmployeeName',
+            placeholder: '推送人员'
+        }
+
+    ]
+})
 
 // 默认推送列表 - 使用Personal.vue中的workMate逻辑
 const defaultPushList = ref([])
@@ -199,7 +216,12 @@ const searchForm = reactive({
 const tableData = ref([])
 
 // 表格配置
-const tableOption = useTableOption()
+const tableOption = reactive({
+    page: 1,
+    pageSize: -1,
+    total: 0,
+    loading: false,
+})
 const tableHeight = computed(() => document.body.clientHeight - 400)
 
 // 设置推送人员弹窗
@@ -235,8 +257,10 @@ const getList = async () => {
         })
 
         tableData.value = res.Rows
+
+        tableOption.total = res.Total || 0
+
         console.log(tableData.value)
-        tableOption.total = res.Data.Total || 0
     } catch (error) {
     } finally {
         tableOption.loading = false
@@ -680,6 +704,7 @@ onMounted(() => {
         }
     }
 }
+
 :deep(.el-table__empty-block) {
     min-height: calc(100vh - 370px) !important;
 }

@@ -1,7 +1,7 @@
 <template>
     <AppVxeTable :showPager="false" class="vex-table-primary freight-table" :tableData="tableData"
         :columnList="sonColumnList">
-        <vxe-column title="" width="72">
+        <vxe-column title="" width="49">
         </vxe-column>
         <template #cz="{ row }" v-if="!nobtn">
             <div class="text-btn" @click="goChat">查看聊天</div>

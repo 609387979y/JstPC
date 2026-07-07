@@ -353,6 +353,17 @@ const module: Module<AuthState, RootState> = {
   },
   getters: {
     /**
+ * 是否是子管理员
+ * @param state 
+ * @returns 
+ */
+    isAdmin: function (state) {
+      if (state.employee && state.employee.IsAdmin == true) {
+        return true
+      }
+      return false
+    },
+    /**
      * 获得权限
      * @param state 
      * @returns 值

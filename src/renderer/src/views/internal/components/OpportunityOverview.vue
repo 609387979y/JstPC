@@ -12,12 +12,12 @@
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-                <div>待处理商机</div>
+                <div>待受理商机</div>
                 <div class="stat-number">{{ tableData?.length > 0 ? tableData[0].NotCount : 0 }} <span>票</span></div>
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-                <div>已处理商机</div>
+                <div>已受理商机</div>
                 <div class="stat-number">{{ tableData?.length > 0 ? tableData[0].InCount : 0 }} <span>票</span></div>
             </div>
         </div>
@@ -29,109 +29,37 @@
             <!-- <div class="view-all-btn" @click="viewAllOpportunities">查看全部</div> -->
         </div>
 
-        <el-table :data="tableData" v-loading="loading" border height="500">
-            <!-- <el-table-column v-if="activeTab == 0" width="125" label="操作">
-                <template #default="scope">
-                    <el-button type="text" class="clean" @click="enquiry(scope.row)">去获取询价人信息</el-button>
-                </template>
-            </el-table-column> -->
-            <el-table-column v-if="activeTab == 1" min-width="110" show-overflow-tooltip sortable
-                prop="InquiryCompanyName" label="询价公司"></el-table-column>
-            <el-table-column v-if="activeTab == 1" min-width="110" show-overflow-tooltip sortable
-                prop="InquiryUserRealName" label="询价人">
-                <template #default="{ row }">{{ formatNameAndPhone(row.InquiryUserRealName, row.InquiryUserMobilePhone)
-                    }}</template>
-            </el-table-column>
-            <el-table-column min-width="110" show-overflow-tooltip sortable prop="InquiryType" label="商机类型">
-                <template #default="{ row }">
-                    <div>{{ row.InquiryType == 1 ? '询价商机' : row.InquiryType == 2 ? '询舱商机' : '' }}</div>
-                </template>
-            </el-table-column>
-            <el-table-column min-width="110" show-overflow-tooltip sortable prop="InquiryCreateTime"
-                label="询价时间"></el-table-column>
-            <el-table-column min-width="110" show-overflow-tooltip sortable prop="InquiryRateProviderCompanyName"
-                label="服务商"></el-table-column>
-            <el-table-column min-width="110" show-overflow-tooltip sortable prop="PolEnPortName" label="起运港">
-                <template #default="{ row }">
-                    <div>{{ row.PolEnPortName }}</div>
-                </template>
-            </el-table-column>
-            <el-table-column min-width="110" show-overflow-tooltip sortable prop="DestEnPortName" label="目的港">
-                <template #default="{ row }">
-                    <div class="mdg-block">
-                        <div class="mdg-text-hidden">{{ row.DestEnPortName }}</div>
-                    </div>
-                </template>
-            </el-table-column>
-            <el-table-column min-width="110" show-overflow-tooltip sortable prop="PodEnPortName" label="中转">
-                <template #default="{ row }">
-                    <span v-if="row.LineType == 0">直达</span>
-                    <span v-if="row.LineType == 1">{{ row.PodEnPortName }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column min-width="110" show-overflow-tooltip sortable prop="ShippingCode" label="船公司">
-                <template #default="scope">
-                    {{ scope.row.ShippingCode }}
-                </template>
-            </el-table-column>
-            <el-table-column min-width="130" show-overflow-tooltip sortable prop="LineName"
-                label="所属航线"></el-table-column>
+        <AppVxeTable :tableHeightMin="'calc(100% - 300px)'" :rowId="'Id'" ref="businessRef"
+            :tableHeaderKey="'businessTable'" :toolbarConfig="true" class="vex-table-primary freight-table"
+            :tableData="tableData" :tableOption="tableOption" @getTableList="getList()" :tableHeight="'1000'"
+            :columnList="columnList">
 
-            <el-table-column min-width="110" show-overflow-tooltip sortable prop="LineDay" label="航程">
-                <template #default="{ row }">
-                    {{ row.LineDay ? row.LineDay + "天" : "-" }}
-                </template>
-            </el-table-column>
-            <el-table-column min-width="110" show-overflow-tooltip sortable prop="CSTDate" label="截/开">
-                <template #default="{ row }"> {{ row.CSTDate }}/{{ row.ETDDate }} </template>
-            </el-table-column>
-            <el-table-column label="ALL-IN报价" align="center">
-                <el-table-column prop="AllOutPrice20GP" sortable label="20GP" min-width="90">
-                    <template #default="{ row }"> <span class="price-content">{{ row.AllOutPrice20GP ?
-                        row.AllOutPrice20GP : "- -" }} </span></template>
-                </el-table-column>
-                <el-table-column prop="AllOutPrice40GP" sortable label="40GP" min-width="90">
-                    <template #default="{ row }"><span class="price-content"> {{ row.AllOutPrice40GP ?
-                        row.AllOutPrice40GP : "- -" }}</span> </template>
-                </el-table-column>
-                <el-table-column prop="AllOutPrice40GP" sortable label="40HQ" min-width="90">
-                    <template #default="{ row }"><span class="price-content"> {{ row.AllOutPrice40HQ ?
-                        row.AllOutPrice40HQ : "- -" }} </span></template>
-                </el-table-column>
-            </el-table-column>
-            <el-table-column label="申请幅度" align="center">
-                <el-table-column prop="20GP" sortable label="20GP" width="90">
-                    <template #default="{ row }">
-                        <div class="discounts" v-if="row.Tag20GP">
-                            <img src="@/assets/customWorkbench/green-arrow-down.svg" alt="" />
-                            {{ row.Tag20GP }}
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="40GP" sortable label="40GP" width="90">
-                    <template #default="{ row }">
-                        <div class="discounts" v-if="row.Tag40GP">
-                            <img src="@/assets/customWorkbench/green-arrow-down.svg" alt="" />
-                            {{ row.Tag40GP }}
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="40HQ" sortable label="40HQ" width="90">
-                    <template #default="{ row }">
-                        <div class="discounts" v-if="row.Tag40HQ">
-                            <img src="@/assets/customWorkbench/green-arrow-down.svg" alt="" />
-                            {{ row.Tag40HQ }}
-                        </div>
-                    </template>
-                </el-table-column>
-            </el-table-column>
-            <el-table-column v-if="activeTab == 1" min-width="110" show-overflow-tooltip sortable prop="Integral"
-                label="扣除Q点"></el-table-column>
-            <el-table-column v-if="activeTab == 1" min-width="110" show-overflow-tooltip sortable
-                prop="OperatingEmployeeName" label="操作人"></el-table-column>
-            <el-table-column v-if="activeTab == 1" min-width="110" show-overflow-tooltip sortable prop="OperatingTime"
-                label="处理时间"></el-table-column>
-        </el-table>
+            <template #OperatingStatus="{ row }">
+                <div :class="row.OperatingStatus ? 'sure-class' : ''">
+                    <span class="dot"></span>{{ !row.OperatingStatus ? '未受理' : '已受理' }}
+                </div>
+            </template>
+
+
+            <template #Type="{ row }">
+                <div>
+                    {{ row.Type == 1 ? '询价' : '询盘' }}
+                </div>
+            </template>
+
+            <template #User="{ row }">
+                <div v-if="row.OperatingStatus">
+                    {{ row.UserRealName }}<span v-if="row.UserMobilePhone">（{{ row.UserMobilePhone }}）</span>
+                </div>
+                <div v-else>******</div>
+            </template>
+
+            <template #box="{ row }">
+                <div>
+                    {{ row.Box + "*" + row.BoxAmount }}
+                </div>
+            </template>
+        </AppVxeTable>
         <SuccessDialog ref="successDialogRef" @refresh="getList"></SuccessDialog>
     </el-card>
 </template>
@@ -140,6 +68,7 @@
 import { defineComponent } from 'vue';
 import { useTableOption, utils } from "justom-share"
 import { ElMessage, ElMessageBox } from "element-plus";
+import AppVxeTable from "@/components/AppVxeTable.vue";
 import SuccessDialog from "./SuccessDialog.vue"
 
 export default defineComponent({
@@ -150,6 +79,9 @@ export default defineComponent({
             default: () => {
             }
         }
+    },
+    components: {
+        AppVxeTable
     },
     data() {
         return {
@@ -162,6 +94,60 @@ export default defineComponent({
             tableData: [],
             option: useTableOption(),
             loading: false,
+            tableOption: {
+                page: 1,
+                pageSize: 10,
+                total: 0,
+                loading: false,
+            },
+            columnList: [
+                {
+                    title: '商机状态',
+                    field: 'OperatingStatus',
+                    type: 'slot',
+                    slotName: 'OperatingStatus',
+                    width: 120
+                },
+                {
+                    title: '商机类型',
+                    field: 'Type',
+                    type: 'slot',
+                    slotName: 'Type',
+                    width: 120
+                },
+                {
+                    title: '询价人',
+                    field: 'User',
+                    type: 'slot',
+                    slotName: 'User',
+                    width: 200
+                },
+                {
+                    title: '起运港',
+                    field: 'PolEnPortName',
+                    width: 120
+                },
+                {
+                    title: '目的港',
+                    field: 'DestEnPortName',
+                    width: 120
+                },
+                {
+                    title: '开始有效期',
+                    field: 'StartTime',
+                    width: 140
+                },
+                {
+                    title: '结束有效期',
+                    field: 'EndTime',
+                    width: 140
+                },
+                {
+                    title: '备注',
+                    field: 'SpecialRemark',
+                    width: 200
+                }
+            ]
         };
     },
     computed: {
@@ -203,8 +189,6 @@ export default defineComponent({
             this.loading = false;
         },
         handleTabChange(tabName) {
-            console.log(tabName);
-
             this.getList()
         },
         viewAllOpportunities() {
