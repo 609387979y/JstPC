@@ -40,11 +40,11 @@ let routes: Array<RouteRecordRaw> = [
     },
   },
   //外部个人中心
-  {
-    name: "ExternalUseCenter",
-    path: "/ExternalUseCenter",
-    component: () => import("@/views/external/ExternalUseCenter.vue"),
-  },
+  // {
+  //   name: "ExternalUseCenter",
+  //   path: "/ExternalUseCenter",
+  //   component: () => import("@/views/external/ExternalUseCenter.vue"),
+  // },
   {
     name: "internal",
     path: "/internal",
