@@ -146,34 +146,34 @@ const routes: RouteRecordRaw[] = [
   },
 
 
-  {
-    name: "applicationDetail",
-    path: "/internal/applicationDetail",
-    component: () => import("@/views/internal/ApplicationDetail.vue"),
-    meta: {
-      title: "应用介绍",
-      lastPagePath: "/internal/applicationMenu"
-    },
-  },
+  // {
+  //   name: "applicationDetail",
+  //   path: "/internal/applicationDetail",
+  //   component: () => import("@/views/internal/ApplicationDetail.vue"),
+  //   meta: {
+  //     title: "应用介绍",
+  //     lastPagePath: "/internal/applicationMenu"
+  //   },
+  // },
 
-  {
-    name: "newsDetail",
-    path: "/internal/news/newsDetail",
-    component: () => import("@/views/internal/news/NewsDetail.vue"),
-    meta: {
-      title: "新闻详情",
-      lastPagePath: "/internal/home"
-    },
-  },
-  {
-    name: "NewsSearch",
-    path: "/internal/news/newsSearch",
-    component: () => import("@/views/internal/news/NewsSearch.vue"),
-    meta: {
-      title: "新闻",
-      lastPagePath: "/internal/home"
-    },
-  }
+  // {
+  //   name: "newsDetail",
+  //   path: "/internal/news/newsDetail",
+  //   component: () => import("@/views/internal/news/NewsDetail.vue"),
+  //   meta: {
+  //     title: "新闻详情",
+  //     lastPagePath: "/internal/home"
+  //   },
+  // },
+  // {
+  //   name: "NewsSearch",
+  //   path: "/internal/news/newsSearch",
+  //   component: () => import("@/views/internal/news/NewsSearch.vue"),
+  //   meta: {
+  //     title: "新闻",
+  //     lastPagePath: "/internal/home"
+  //   },
+  // }
 ];
 
 export default routes;
